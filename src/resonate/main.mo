@@ -1,5 +1,13 @@
+import Array "mo:base/Array";
+
 actor {
-    public func greet(name : Text) : async Text {
-        return "Hello, " # name # "!";
+    var tracks : [Text] = [];
+
+    public func add(url : Text) : async () {
+        tracks := Array.append<Text>([url], tracks);
+    };
+
+    public func getAll() : async [Text] {
+        return tracks;
     };
 };
