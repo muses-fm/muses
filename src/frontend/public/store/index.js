@@ -7,13 +7,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    loading: false,
+    loading: {
+      enabled: false,
+      text: ''
+    },
     submissions: []
   },
   getters: {},
   mutations: {
-    TOGGLE_LOADER (state, toggle) {
-      state.loading = toggle
+    TOGGLE_LOADER_ON (state, text='') {
+      state.loading.enabled = true
+      state.loading.text = text
+    },
+    TOGGLE_LOADER_OFF (state) {
+      state.loading.enabled = false
+      state.loading.text = ''
     },
     SET_SUBMISSIONS(state, submissions) {
       state.submissions = submissions
@@ -24,21 +32,21 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchSubmissions({ commit }) {
-      commit('TOGGLE_LOADER', true)
+      commit('TOGGLE_LOADER_ON', 'Loading data...')
       return new Promise((resolve) => {
         artist.getSubmissions().then(submissions => {
           commit('SET_SUBMISSIONS', submissions)
-          commit('TOGGLE_LOADER', false)
+          commit('TOGGLE_LOADER_OFF')
           resolve(submissions)
         });
       })
     },
     async submitTrack({ commit }, trackUrl) {
-      commit('TOGGLE_LOADER', true)
+      commit('TOGGLE_LOADER_ON', 'Storing data...')
       return new Promise((resolve) => {
         artist.submitTrack(trackUrl).then(submission => {
           commit('SUBMIT_TRACK', submission)
-          commit('TOGGLE_LOADER', false)
+          commit('TOGGLE_LOADER_OFF')
           resolve(submission)
         })
       })

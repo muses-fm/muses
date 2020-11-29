@@ -22,9 +22,9 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <router-view v-if="!loading"></router-view>
-      <v-overlay v-else :value="loading" class="text-center">
-        <div class="mb-5">Loading data...</div>
+      <router-view v-if="!loading.enabled"></router-view>
+      <v-overlay v-else :value="loading.enabled" class="text-center">
+        <div class="mb-5">{{ loading.text }}</div>
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
     </v-app>
