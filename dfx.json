@@ -1,19 +1,23 @@
 {
   "canisters": {
-    "resonate": {
-      "main": "src/resonate/main.mo",
+    "artist": {
+      "main": "src/backend/artist/main.mo",
       "type": "motoko"
     },
-    "resonate_assets": {
+    "curator": {
+      "main": "src/backend/curator/main.mo"
+    },
+    "frontend": {
       "dependencies": [
-        "resonate"
+        "artist",
+        "curator"
       ],
       "frontend": {
-        "entrypoint": "src/resonate_assets/public/index.js"
+        "entrypoint": "src/frontend/public/index.js"
       },
       "source": [
-        "src/resonate_assets/assets",
-        "dist/resonate_assets/"
+        "src/frontend/assets",
+        "dist/frontend/"
       ],
       "type": "assets"
     }
