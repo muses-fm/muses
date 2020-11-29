@@ -3,6 +3,7 @@
     <div id="nav">
       HIII from Vue!
       <div v-if="greeting">{{ greeting }}</div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
