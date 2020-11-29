@@ -13,15 +13,26 @@ export default new Vuex.Store({
   mutations: {
     SET_SUBMISSIONS(state, submissions) {
       state.submissions = submissions
+    },
+    SUBMIT_TRACK(state, submission) {
+      state.submissions.push(submission)
     }
   },
   actions: {
     async fetchSubmissions({ commit }) {
       return new Promise((resolve) => {
-        artist.getAll().then(submissions => {
+        artist.getSubmissions().then(submissions => {
           commit('SET_SUBMISSIONS', submissions)
           resolve(submissions)
         });
+      })
+    },
+    async submitTrack({ commit }, trackUrl) {
+      return new Promise((resolve) => {
+        artist.submitTrack(trackUrl).then(submission => {
+          commit('SUBMIT_TRACK', submission)
+          resolve(submission)
+        })
       })
     }
   }

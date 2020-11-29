@@ -1,14 +1,53 @@
 <template>
   <div id="app">
     <v-app>
-      <v-app-bar app></v-app-bar>
-      <v-main>
-        <v-container>
-          <router-view></router-view>
-        </v-container>
-      </v-main>
+      <v-navigation-drawer v-model="drawer" app>
+        <v-sheet color="grey lighten-4" class="pa-4">
+          <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
+          <div>john@example.com</div>
+        </v-sheet>
+
+        <v-divider />
+
+        <v-list>
+          <v-list-item v-for="{icon, title, to} in links" :key="icon" :to="to">
+            <!-- <v-list-item-icon>
+              <v-icon>{{ icon }}</v-icon>
+            </v-list-item-icon> -->
+
+            <v-list-item-content>
+              <v-list-item-title>{{ title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+      <router-view></router-view>
     </v-app>
   </div>
 </template>
 
-
+<script>
+export default {
+  data: () => {
+    return {
+      drawer: null,
+      links: [
+        {
+          icon: 'list',
+          title: 'My submissions',
+          to: {
+            name: 'Tracks'
+          }
+        },
+        {
+          icon: 'publish',
+          title: 'Submit track',
+          to: {
+            name: 'Submit track'
+          }
+        }
+      ]
+    }
+  }
+}
+</script>
