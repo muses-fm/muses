@@ -5,7 +5,8 @@
   "keywords": [],
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve"
+    "start": "webpack serve",
+    "redeploy:frontend": "dfx build frontend && dfx canister install frontend --mode upgrade"
   },
   "devDependencies": {
     "@dfinity/agent": "0.6.14",

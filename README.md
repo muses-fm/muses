@@ -86,6 +86,14 @@ dfx build frontend
 dfx canister install frontend --mode=upgrade
 ```
 
+or simply run
+
+```sh
+yarn redeploy:frontend
+```
+
+which does the same thing.
+
 For faster development cycles, you may want to work with a local dev server, disconnected from the canisters, instead. Start it with:
 
 ```sh
