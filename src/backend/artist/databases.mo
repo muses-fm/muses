@@ -44,8 +44,7 @@ module {
   public class SubmissionDB() {
     func isEq(x: SubmissionId, y: SubmissionId): Bool { x == y };
     let hashMap = HashMap.HashMap<SubmissionId, Submission>(1, isEq, Hash.hash);
-    let idStart = 1;
-    var nextId : SubmissionId = idStart;
+    var nextId : SubmissionId = 1;
 
     public func create(url_ : Text) : Submission {
       let submission = {
@@ -57,7 +56,7 @@ module {
       submission;
     };
 
-    public func find(id: Nat): ?Submission {
+    public func find(id : Nat) : ?Submission {
       hashMap.get(id);
     };
   }

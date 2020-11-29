@@ -1,28 +1,41 @@
 import Array "mo:base/Array";
+import Option "mo:base/Option";
 
-actor Curators {
-  type Curator = {
-    spotifyId : Text;
-    playlistUrls: [Text];
-    pendingSubmissionsIds : [Nat];
-    reviewedSubmissionsIds : [Nat];
-  };
+import Databases "./databases";
+import Types "./types";
+import Utils "./utils";
 
-  stable var curators : [Curator] = [];
+actor {
+  type PlaylistId = Types.PlaylistId;
+  type Playlist = Types.Playlist;
+  type Profile = Types.Profile;
 
-  public func register(spotifyId_ : Text, playlistUrl : Text) : async () {
-    // TODO: check that no other curator has the same spotifyId
-    let curator : Curator = {
-      spotifyId = spotifyId_;
-      playlistUrls = [playlistUrl];
-      pendingSubmissionsIds = [];
-      reviewedSubmissionsIds = [];
+  // FIXME: these should be `stable` vars
+  var curators : Databases.CuratorDB = Databases.CuratorDB();
+  var playlists : Databases.PlaylistDB = Databases.PlaylistDB();
+
+  public shared(msg) func qualifyPlaylist(url : Text) : async ?Playlist {
+    let isQualified = Utils.checkPlaylist(url);
+    if (not isQualified) {
+      return null;
     };
-    curators := Array.append<Curator>([curator], curators);
-  };
 
+    let playlist = playlists.create(url);
+    switch (playlist) {
+      case (?playlist) {
+        let curator = curators.get(msg.caller);
+        let update : Profile = {
+          id = curator.id;
+          playlists = Array.append<PlaylistId>(curator.playlists, [playlist.id]);
+          reviewed = curator.reviewed;
+          pending = curator.pending;
+        };
+        curators.update(update);
+      };
+      // TODO: return proper error
+      case (null) { return null };
+    };
 
-  public func getAll() : async [Curator] {
-    return curators;
+    playlist;
   };
 };
