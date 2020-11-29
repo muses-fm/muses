@@ -1,4 +1,5 @@
 const path = require("path");
+const { VueLoaderPlugin } = require("vue-loader");
 const TerserPlugin = require("terser-webpack-plugin");
 const dfxJson = require("./dfx.json");
 
@@ -45,7 +46,11 @@ function generateWebpackConfigForCanister(name, info) {
       minimizer: [new TerserPlugin()],
     },
     resolve: {
-      alias: aliases,
+      alias: {
+        ...aliases,
+        'vue$': 'vue/dist/vue.runtime.esm.js'
+      },
+      extensions: ["*", ".js", ".vue", ".json"],
     },
     output: {
       filename: "[name].js",
@@ -57,13 +62,14 @@ function generateWebpackConfigForCanister(name, info) {
     // webpack configuration. For example, if you are using React
     // modules and CSS as described in the "Adding a stylesheet"
     // tutorial, uncomment the following lines:
-    // module: {
-    //  rules: [
-    //    { test: /\.(js|ts)x?$/, loader: "ts-loader" },
-    //    { test: /\.css$/, use: ['style-loader','css-loader'] }
-    //  ]
-    // },
-    plugins: [],
+    module: {
+      rules: [
+        { test: /\.vue$/, loader: "vue-loader" }
+     ]
+    },
+    plugins: [
+      new VueLoaderPlugin(),
+    ],
   };
 }
 

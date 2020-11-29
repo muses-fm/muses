@@ -1,5 +1,8 @@
-import artist from 'ic:canisters/artist';
+import Vue from 'vue'
+import App from './App.vue'
 
-resonate.greet(window.prompt("Enter your name:")).then(greeting => {
-  window.alert(greeting);
-});
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
