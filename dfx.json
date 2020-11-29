@@ -13,7 +13,8 @@
         "curator"
       ],
       "frontend": {
-        "entrypoint": "src/frontend/public/index.js"
+        "entrypoint": "src/frontend/public/index.js",
+        "output": "dist/frontend"
       },
       "source": [
         "src/frontend/assets",

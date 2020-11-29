@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require("vue-loader");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const dfxJson = require("./dfx.json");
+const webpack = require('webpack')
 
 // List of all aliases for canisters. This creates the module alias for
 // the `import ... from "ic:canisters/xyz"` where xyz is the name of a
@@ -70,6 +71,7 @@ function generateWebpackConfigForCanister(name, info) {
       rules: [
         { test: /\.vue$/, loader: "vue-loader" },
         { test: /\.css$/, use: ['style-loader','css-loader'] },
+        { test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader'},
         {
           test: /\.s(c|a)ss$/,
           use: [

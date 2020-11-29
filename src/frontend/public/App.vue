@@ -11,6 +11,7 @@
 
         <v-list>
           <v-list-item v-for="{icon, title, to} in links" :key="icon" :to="to">
+            <!-- TODO: Fix font imports -->
             <!-- <v-list-item-icon>
               <v-icon>{{ icon }}</v-icon>
             </v-list-item-icon> -->
@@ -32,20 +33,8 @@ export default {
     return {
       drawer: null,
       links: [
-        {
-          icon: 'list',
-          title: 'My submissions',
-          to: {
-            name: 'Tracks'
-          }
-        },
-        {
-          icon: 'publish',
-          title: 'Submit track',
-          to: {
-            name: 'Submit track'
-          }
-        }
+        { title: 'My submissions', to: { name: 'Tracks' }, icon: 'list' },
+        { title: 'Submit track', to: { name: 'Submit track' }, icon: 'publish' }
       ]
     }
   }
