@@ -80,8 +80,13 @@ and navigating to [`http://localhost:8080`](http://localhost:8080).
 ## more
 
 To learn more before you start working with resonate, see the following documentation available online:
-
 - [Quick Start](https://sdk.dfinity.org/docs/quickstart/quickstart.html)
 - [SDK Developer Tools](https://sdk.dfinity.org/docs/developers-guide/sdk-guide.html)
 - [Motoko Programming Language Guide](https://sdk.dfinity.org/docs/language-guide/motoko.html)
 - [Motoko Language Quick Reference](https://sdk.dfinity.org/docs/language-guide/language-manual.html)
+
+If the docs are not helping, these are other resources you can draw inspiration from:
+- [Awesome DFINITY repository](https://github.com/dfinity/awesome-dfinity)
+- [DFINITY examples](https://github.com/dfinity/examples)
+- [DFINITY forum](https://forum.dfinity.org/)
+- [LinkedUp](https://github.com/dfinity/linkedup)
