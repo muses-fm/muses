@@ -1,24 +1,34 @@
 import Array "mo:base/Array";
 
-actor Artist {
-    type Submission = {
-        id : Nat;
-        url : Text;
-    };
+import Databases "./databases";
+import Types "./types";
 
-    stable var nextId : Nat = 0;
-    stable var submissions : [Submission] = [];
+actor {
+    type ArtistProfile = Types.ArtistProfile;
+    type Submission = Types.Submission;
+    type SubmissionId = Types.SubmissionId;
 
-    public func add(url_ : Text) : async () {
-        let submission : Submission = {
-            id = nextId;
-            url = url_;
+    // FIXME: these should be `stable` vars
+    var artists : Databases.ArtistDB = Databases.ArtistDB();
+    var submissions : Databases.SubmissionDB = Databases.SubmissionDB();
+
+    public shared(msg) func submitTrack(url : Text) : async Submission {
+        let artist = artists.get(msg.caller);
+        let submission = submissions.create(url);
+        let update : ArtistProfile = {
+            id = artist.id;
+            submissions = Array.append<Nat>(artist.submissions, [submission.id]);
         };
-        submissions := Array.append<Submission>([submission], submissions);
-        nextId += 1;
+        artists.update(update);
+        submission;
     };
 
-    public func getAll() : async [Submission] {
-        return submissions;
+    public shared(msg) func getSubmissions() : async [Submission] {
+        let artist = artists.get(msg.caller);
+        Array.filterMap<SubmissionId, Submission>(artist.submissions, func x { submissions.find(x) });
+    };
+
+    public func getSubmission(id : SubmissionId) : async ?Submission {
+        submissions.find(id);
     };
 };
