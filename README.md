@@ -65,6 +65,18 @@ make clean
 
 > **NOTE:** Working with this project in your development environment will not affect any production deployment or identity tokens.
 
+### frontend
+
+To avoid re-deploying to the network while developing the frontend assets, you can start the dev server by running:
+
+```sh
+yarn start
+```
+
+and navigating to [`http://localhost:8080`](http://localhost:8080).
+
+> **NOTE:** However, you would need to comment out all JavaScript lines that import and use canisters before running the above command.
+
 ## more
 
 To learn more before you start working with resonate, see the following documentation available online:

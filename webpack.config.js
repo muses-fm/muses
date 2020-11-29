@@ -1,5 +1,6 @@
 const path = require("path");
 const { VueLoaderPlugin } = require("vue-loader");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const dfxJson = require("./dfx.json");
 
@@ -36,7 +37,10 @@ function generateWebpackConfigForCanister(name, info) {
   }
 
   return {
-    mode: "production",
+    mode: "development",
+    devServer: {
+      contentBase: './dist/frontend',
+    },
     entry: {
       index: path.join(__dirname, info.frontend.entrypoint),
     },
@@ -85,7 +89,10 @@ function generateWebpackConfigForCanister(name, info) {
       ]
     },
     plugins: [
-      new VueLoaderPlugin()
+      new VueLoaderPlugin(),
+      new HtmlWebpackPlugin({
+        template: 'src/frontend/public/index.html'
+      })
     ],
   };
 }
