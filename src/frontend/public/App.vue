@@ -22,12 +22,18 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <router-view></router-view>
+      <router-view v-if="!loading"></router-view>
+      <v-overlay v-else :value="loading" class="text-center">
+        <div class="mb-5">Loading data...</div>
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </v-app>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data: () => {
     return {
@@ -37,6 +43,11 @@ export default {
         { title: 'Submit track', to: { name: 'Submit track' }, icon: 'publish' }
       ]
     }
+  },
+  computed: {
+    ...mapState([
+      'loading'
+    ])
   }
 }
 </script>
