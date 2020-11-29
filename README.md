@@ -32,6 +32,7 @@ dfx start
 And deploy project canisters to the local network:
 
 ```sh
+yarn install
 dfx deploy
 ```
 
@@ -48,7 +49,19 @@ You can now test the frontend in the browser by visiting the following URL, appe
 http://127.0.0.1:8000/?canisterId=
 ```
 
+If you want to have some dummy data for testing the frontend, apply local fixtures:
+
+```sh
+make fixtures
+```
+
 To test your changes, you will need to re-deploy with `dfx deploy`.
+
+If you want to start from scratch:
+
+```sh
+make clean
+```
 
 > **NOTE:** Working with this project in your development environment will not affect any production deployment or identity tokens.
 
