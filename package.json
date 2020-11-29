@@ -8,14 +8,21 @@
   },
   "devDependencies": {
     "@dfinity/agent": "0.6.14",
+    "css-loader": "^5.0.1",
+    "deepmerge": "^4.2.2",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
     "terser-webpack-plugin": "2.2.2",
     "vue-loader": "^15.9.5",
+    "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.12",
     "webpack": "4.41.3",
     "webpack-cli": "3.3.10"
   },
   "dependencies": {
     "vue": "^2.6.12",
-    "vue-router": "^3.4.9"
+    "vue-router": "^3.4.9",
+    "vuetify": "^2.3.19"
   }
 }

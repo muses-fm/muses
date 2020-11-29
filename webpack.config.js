@@ -64,11 +64,28 @@ function generateWebpackConfigForCanister(name, info) {
     // tutorial, uncomment the following lines:
     module: {
       rules: [
-        { test: /\.vue$/, loader: "vue-loader" }
-     ]
+        { test: /\.vue$/, loader: "vue-loader" },
+        { test: /\.css$/, use: ['style-loader','css-loader'] },
+        {
+          test: /\.s(c|a)ss$/,
+          use: [
+            'vue-style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('sass'),
+                sassOptions: {
+                  indentedSyntax: true // optional
+                },
+              },
+            },
+          ],
+        }
+      ]
     },
     plugins: [
-      new VueLoaderPlugin(),
+      new VueLoaderPlugin()
     ],
   };
 }

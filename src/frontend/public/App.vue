@@ -1,10 +1,13 @@
 <template>
   <div id="app">
-    <div id="nav">
-      HIII from Vue!
-      <div v-if="greeting">{{ greeting }}</div>
+    <v-app>
+      <div id="nav">
+        HIII from Vue!
+        <div v-if="greeting">{{ greeting }}</div>
+      </div>
+      <v-container>Hello world</v-container>
       <router-view></router-view>
-    </div>
+    </v-app>
   </div>
 </template>
 
