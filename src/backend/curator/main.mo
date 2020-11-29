@@ -8,7 +8,7 @@ actor Curators {
         reviewedSubmissionsIds : [Nat];
     };
 
-    var curators : [Curator] = [];
+    stable var curators : [Curator] = [];
 
     public func register(spotifyId_ : Text, playlistUrl : Text) : async () {
         // TODO: check that no other curator has the same spotifyId

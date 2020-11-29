@@ -6,8 +6,8 @@ actor Artist {
         url : Text;
     };
 
-    var nextId : Nat = 0;
-    var submissions : [Submission] = [];
+    stable var nextId : Nat = 0;
+    stable var submissions : [Submission] = [];
 
     public func add(url_ : Text) : async () {
         let submission : Submission = {
