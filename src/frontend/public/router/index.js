@@ -1,15 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Tracks from '../views/Tracks.vue'
-import TrackSubmit from '../views/TrackSubmit.vue'
 import Home from '../views/Home.vue'
+import Artist from '../views/Artist.vue'
+import Curator from '../views/Curator.vue'
+import ArtistTracks from '../views/ArtistTracks.vue'
+import ArtistTrackSubmit from '../views/ArtistTrackSubmit.vue'
+import CuratorSubmitPlaylist from '../views/CuratorSubmitPlaylist.vue'
+import CuratorPlaylists from '../views/CuratorPlaylists.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/track/submit', name: 'Submit track', component: TrackSubmit },
-  { path: '/tracks', name: 'Tracks', component: Tracks },
   { path: '/', name: 'Home', component: Home,},
+  { path: '/artist', name: 'Artist', component: Artist,
+    children: [
+      { path: 'submit', name: 'Artist Submit Track', component: ArtistTrackSubmit },
+      { path: 'tracks', name: 'Artist Tracks', component: ArtistTracks }
+    ]
+  },
+  { path: '/curator', name: 'Curator', component: Curator,
+    children: [
+      { path: 'submit', name: 'Curator Submit Playlist', component: CuratorSubmitPlaylist },
+      { path: 'playlists', name: 'Curator Playlists', component: CuratorPlaylists }
+    ]
+  },
 ]
 
 const router = new VueRouter({ routes })

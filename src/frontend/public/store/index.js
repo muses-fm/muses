@@ -11,7 +11,8 @@ export default new Vuex.Store({
       enabled: false,
       text: ''
     },
-    submissions: []
+    trackSubmissions: [],
+    playlistSubmissions: []
   },
   getters: {},
   mutations: {

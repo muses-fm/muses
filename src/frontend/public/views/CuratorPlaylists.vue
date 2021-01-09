@@ -5,10 +5,10 @@
         <v-row>
           <v-col cols="12">
             <v-card>
-              <v-subheader>My submissions</v-subheader>
+              <v-subheader>My playlists</v-subheader>
               <v-list two-line>
                 <v-list-item-group v-model="selected" active-class="pink--text">
-                  <template v-for="(submission, index) in submissions">
+                  <template v-for="(submission, index) in playlistSubmissions">
                     <v-list-item :key="`${submission.id}`">
                       <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
                       <v-list-item-content>
@@ -16,7 +16,7 @@
                         <v-list-item-subtitle class="text--primary">{{ submission.url }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-divider v-if="index < submissions.length - 1" :key="`divider-${submission.id}`" inset />
+                    <v-divider v-if="index < playlistSubmissions.length - 1" :key="`divider-${submission.id}`" inset />
                   </template>
                 </v-list-item-group>
               </v-list>
@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'submissions'
+      'playlistSubmissions'
     ])
   },
   watch: {
@@ -48,8 +48,8 @@ export default {
     }
   },
   created() {
-    if (!this.submissions.length) {
-      this.$store.dispatch('fetchSubmissions');
+    if (!this.playlistSubmissions.length) {
+      // this.$store.dispatch('fetchPlaylistSubmissions');
     }
   }
 }
