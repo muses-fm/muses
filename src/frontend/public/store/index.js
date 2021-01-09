@@ -25,10 +25,10 @@ export default new Vuex.Store({
       state.loading.text = ''
     },
     SET_SUBMISSIONS(state, submissions) {
-      state.submissions = submissions
+      state.trackSubmissions = submissions
     },
     SUBMIT_TRACK(state, submission) {
-      state.submissions.push(submission)
+      state.trackSubmissions.push(submission)
     }
   },
   actions: {
