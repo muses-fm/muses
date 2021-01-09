@@ -7,6 +7,7 @@ module {
   public type PlaylistId = Nat;
 
   public type SubmissionId = ArtistTypes.SubmissionId;
+  public type Submission = ArtistTypes.Submission;
 
   public type Profile = {
     id : ProfileId;
