@@ -36,7 +36,7 @@ export default {
   methods: {
     submit() {
       this.$store.dispatch('submitTrack', this.trackUrl).then(submission => {
-        this.$router.push({ name: 'ArtistTracks' })
+        this.$router.push({ name: 'Artist Tracks' })
       })
     }
   }
