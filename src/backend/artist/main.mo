@@ -25,7 +25,7 @@ actor {
 
   public shared(msg) func getSubmissions() : async [Submission] {
     let artist = artists.get(msg.caller);
-    Array.filterMap<SubmissionId, Submission>(artist.submissions, func x { submissions.find(x) });
+    Array.mapFilter<SubmissionId, Submission>(artist.submissions, func x { submissions.find(x) });
   };
 
   public func getSubmission(id : SubmissionId) : async ?Submission {
