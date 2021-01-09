@@ -3,7 +3,7 @@ import Array "mo:base/Array";
 import Databases "./databases";
 import Types "./types";
 
-actor {
+actor Artist {
   type ArtistProfile = Types.ArtistProfile;
   type Submission = Types.Submission;
   type SubmissionId = Types.SubmissionId;

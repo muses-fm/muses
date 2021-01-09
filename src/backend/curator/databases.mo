@@ -3,13 +3,20 @@ import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 
+import Artist "canister:artist";
+
 import Types "./types";
+
 
 module {
   type Profile = Types.Profile;
   type ProfileId = Types.ProfileId;
   type Playlist = Types.Playlist;
   type PlaylistId = Types.PlaylistId;
+  type ReviewId = Types.ReviewId;
+  type Review = Types.Review;
+  type SubmissionId = Types.SubmissionId;
+  type Submission = Types.Submission;
 
   public class CuratorDB() {
     func isEq(x: ProfileId, y: ProfileId): Bool { x == y };
@@ -76,5 +83,27 @@ module {
       };
       return null;
     };
+  };
+
+  public class ReviewDB() {
+    func isEq(x: ReviewId, y: ReviewId): Bool { x == y};
+    let hashMap = HashMap.HashMap<ReviewId, Review>(1, isEq, Hash.hash);
+    var nextId : ReviewId = 1;
+
+    public func create(content_: Text, submissionId_: SubmissionId) : async ?Review {
+      let submission : ?Submission = await Artist.getSubmission(submissionId_);
+      switch (submission) {
+        case (?submission) { () };
+        case (null) { return null; };
+      };
+      let review : Review = {
+        id = nextId;
+        content = content_;
+        submissionId = submissionId_;
+      };
+      hashMap.put(nextId, review);
+      nextId += 1;
+      return ?review;
+    }
   };
 }

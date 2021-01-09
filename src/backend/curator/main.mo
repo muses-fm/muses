@@ -5,7 +5,7 @@ import Databases "./databases";
 import Types "./types";
 import Utils "./utils";
 
-actor {
+actor Curator {
   type PlaylistId = Types.PlaylistId;
   type Playlist = Types.Playlist;
   type Profile = Types.Profile;
@@ -13,6 +13,7 @@ actor {
   // FIXME: these should be `stable` vars
   var curators : Databases.CuratorDB = Databases.CuratorDB();
   var playlists : Databases.PlaylistDB = Databases.PlaylistDB();
+  var reviews : Databases.ReviewDB = Databases.ReviewDB();
 
   public shared(msg) func qualifyPlaylist(url : Text) : async ?Playlist {
     let isQualified = Utils.checkPlaylist(url);
