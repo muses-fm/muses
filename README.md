@@ -2,7 +2,7 @@
 
 res(o)nate is a decentralized music curation platform that allows artists to distribute new releases to playlist curators without intermediaries.
 
-## development
+## Development
 
 To get started, you might want to explore the project directory structure and install required tools:
 - [Git](https://git-scm.com/downloads) and [GNU Make](https://www.gnu.org/software/make/).
@@ -73,7 +73,7 @@ make clean
 
 > **NOTE:** Working with this project in your development environment will not affect any production deployment or identity tokens.
 
-### backend
+### Backend
 
 While developing, you can re-deploy the changes in your canister with:
 
@@ -83,7 +83,7 @@ dfx deploy <canister_alias>
 
 Or use `dfx deploy` to re-deploy all canisters.
 
-### frontend
+### Frontend
 
 While developing, you can re-deploy your changes while preserving canister state with:
 
@@ -110,7 +110,7 @@ yarn start
 
 And navigate to [`http://localhost:8080`](http://localhost:8080) to see your changes applied via hot reload.
 
-## more
+## More
 
 To learn more before you start working with resonate, see the following documentation available online:
 - [Quick Start](https://sdk.dfinity.org/docs/quickstart/quickstart.html)
