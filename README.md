@@ -123,3 +123,19 @@ If the docs are not helping, these are other resources you can draw inspiration 
 - [DFINITY examples](https://github.com/dfinity/examples)
 - [DFINITY forum](https://forum.dfinity.org/)
 - [LinkedUp](https://github.com/dfinity/linkedup)
+
+## Troubleshooting
+
+### Replica error (code 3): IC0301
+
+```
+Replica error (code 3): IC0301: Canister ic:ryjl3-tyaaa-aaaaa-aaaba-cai not found.
+```
+
+Start the DFX network with:
+
+```sh
+dfx start --clean
+```
+
+The --clean option removes checkpoints and stale state information from your project’s cache so that you can restart the Internet Computer replica and web server processes in a clean state.
