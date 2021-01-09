@@ -41,16 +41,18 @@ yarn install
 dfx deploy
 ```
 
-This command, if successful, will display canister information similar to this:
+This command, if successful, will display IDs of your deployed canisters:
 
 ```
-Installing code for canister <alias>, with canister_id <id>
+Installing code for canister artist, with canister_id rwlgt-iiaaa-aaaaa-aaaaa-cai
+Installing code for canister curator, with canister_id rrkah-fqaaa-aaaaa-aaaaq-cai
+Installing code for canister frontend, with canister_id ryjl3-tyaaa-aaaaa-aaaba-cai
 ```
 
-Spot the `frontend` canister and use its `<id>` to access the deployed frontend in the following URL:
+Spot the `frontend` canister and use its ID to access the user interface:
 
 ```
-http://localhost:8000/?canisterId=<frontend_canister_id>
+http://localhost:8000/?canisterId=ryjl3-tyaaa-aaaaa-aaaba-cai
 ```
 
 You can now also interact with your canisters' `actor`s directly from the terminal with:
