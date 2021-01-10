@@ -9,8 +9,8 @@
               <v-card-text>
                 <v-form ref="form" v-model="isFormValid">
                   <v-text-field v-model="trackUrl" :rules="trackUrlRules" label="Track URL" required />
-                  <v-btn :disabled="!isFormValid" color="primary" class="mr-4" @click="submit">
-                    Submit
+                  <v-btn :disabled="!isFormValid" color="primary" class="mr-4 mt-4" @click="submit">
+                    Submit track
                   </v-btn>
                 </v-form>
               </v-card-text>
