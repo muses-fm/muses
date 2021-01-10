@@ -9,6 +9,7 @@ module {
   public type SubmissionId = ArtistTypes.SubmissionId;
   public type Submission = ArtistTypes.Submission;
 
+  // FIXME: rename to `CuratorProfile`
   public type Profile = {
     id : ProfileId;
     playlists : [PlaylistId];

@@ -1,4 +1,8 @@
 import Array "mo:base/Array";
+import Iter "mo:base/Iter";
+import Principal "mo:base/Principal";
+
+import Curator "canister:curator";
 
 import Databases "./databases";
 import Types "./types";
@@ -20,6 +24,11 @@ actor Artist {
       submissions = Array.append<Nat>(artist.submissions, [submission.id]);
     };
     artists.update(update);
+    // TODO: curatorsIds should be generated from some sort of track-curator matching algorithm
+    let curatorIds = await Curator.getAllCuratorIds();
+    for (x in Iter.fromArray<Principal>(curatorIds)) {
+      await Curator.receiveSubmission(x, submission.id);
+    };
     submission;
   };
 
