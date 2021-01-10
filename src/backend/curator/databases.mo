@@ -3,8 +3,6 @@ import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 
-import Artist "canister:artist";
-
 import Types "./types";
 
 
@@ -99,11 +97,7 @@ module {
     var nextId : ReviewId = 1;
 
     public func create(content_: Text, submissionId_: SubmissionId) : async ?Review {
-      let submission : ?Submission = await Artist.getSubmission(submissionId_);
-      switch (submission) {
-        case (?submission) { () };
-        case (null) { return null; };
-      };
+      // TODO: prevent creating reviews for non-existing submissions
       let review : Review = {
         id = nextId;
         content = content_;
