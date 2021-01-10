@@ -5,7 +5,8 @@
       "type": "motoko"
     },
     "curator": {
-      "main": "src/backend/curator/main.mo"
+      "main": "src/backend/curator/main.mo",
+      "type": "motoko"
     },
     "frontend": {
       "dependencies": [

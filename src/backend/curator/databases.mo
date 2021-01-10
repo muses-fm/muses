@@ -37,6 +37,14 @@ module {
       hashMap.get(principal);
     };
 
+    public func findAllIds() : [ProfileId] {
+      var profiles : [ProfileId] = [];
+      for ((id, profile) in hashMap.entries()) {
+        profiles := Array.append<ProfileId>(profiles, [profile.id]);
+      };
+      profiles;
+    };
+
     public func get(userId: ProfileId): Profile {
       let profile = find(userId);
       switch (profile) {

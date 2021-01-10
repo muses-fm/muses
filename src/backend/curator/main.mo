@@ -42,6 +42,10 @@ actor Curator {
     playlist;
   };
 
+  public func getAllCuratorIds() : async [ProfileId] {
+    curators.findAllIds();
+  };
+
   public shared(msg) func getPlaylists() : async [Playlist] {
     let curator = curators.get(msg.caller);
     Array.filterMap<PlaylistId, Playlist>(curator.playlists, func x { playlists.find(x) });
@@ -59,6 +63,7 @@ actor Curator {
           pending = Array.append<SubmissionId>(curator.pending, [submissionId]);
         };
         curators.update(update);
+        return ();
       };
       // TODO: raise proper error
       case (null) { () };
