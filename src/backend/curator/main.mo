@@ -48,7 +48,7 @@ actor Curator {
 
   public shared(msg) func getPlaylists() : async [Playlist] {
     let curator = curators.get(msg.caller);
-    Array.filterMap<PlaylistId, Playlist>(curator.playlists, func x { playlists.find(x) });
+    Array.mapFilter<PlaylistId, Playlist>(curator.playlists, func x { playlists.find(x) });
   };
 
   public func receiveSubmission(curatorId: ProfileId, submissionId: SubmissionId) : async () {
