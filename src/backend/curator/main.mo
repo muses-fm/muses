@@ -39,4 +39,9 @@ actor Curator {
 
     playlist;
   };
+
+  public shared(msg) func getPlaylists() : async [Playlist] {
+    let curator = curators.get(msg.caller);
+    Array.filterMap<PlaylistId, Playlist>(curator.playlists, func x { playlists.find(x) });
+  };
 };
