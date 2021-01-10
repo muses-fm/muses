@@ -3,7 +3,6 @@ const { VueLoaderPlugin } = require("vue-loader");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const dfxJson = require("./dfx.json");
-const webpack = require('webpack')
 
 // List of all aliases for canisters. This creates the module alias for
 // the `import ... from "ic:canisters/xyz"` where xyz is the name of a
@@ -32,20 +31,20 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
 /**
  * Generate a webpack configuration for a canister.
  */
-function generateWebpackConfigForCanister(name, info) {
+function generateWebpackConfigForCanister(name, info, env) {
   if (typeof info.frontend !== "object") {
     return;
   }
 
   return {
-    mode: "development",
+    mode: env.development ? "development" : "production",
     devServer: {
       contentBase: './dist/frontend',
     },
     entry: {
       index: path.join(__dirname, info.frontend.entrypoint),
     },
-    devtool: "source-map",
+    devtool: env.development ? "source-map" : "",
     optimization: {
       minimize: true,
       minimizer: [new TerserPlugin()],
@@ -94,17 +93,23 @@ function generateWebpackConfigForCanister(name, info) {
       new VueLoaderPlugin(),
       new HtmlWebpackPlugin({
         template: 'src/frontend/public/index.html'
-      })
+      }),
     ],
   };
 }
 
 // If you have additional webpack configurations you want to build
 //  as part of this configuration, add them to the section below.
-module.exports = [
-  ...Object.entries(dfxJson.canisters)
-    .map(([name, info]) => {
-      return generateWebpackConfigForCanister(name, info);
-    })
-    .filter((x) => !!x),
-];
+module.exports = env => {
+  if (!env) {
+    env = {}
+  }
+
+  return [
+    ...Object.entries(dfxJson.canisters)
+      .map(([name, info]) => {
+        return generateWebpackConfigForCanister(name, info, env);
+      })
+      .filter((x) => !!x),
+  ];
+}
