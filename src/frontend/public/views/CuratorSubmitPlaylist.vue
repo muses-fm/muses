@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { isValidHttpUrl, isValidSpotifyPlaylistUrl } from '../utils.js'
+
 export default {
   data: () => {
     return {
@@ -53,21 +55,4 @@ export default {
     }
   }
 }
-
-function isValidHttpUrl(string) {
-  let url;
-
-  try {
-    url = new URL(string);
-  } catch (_) {
-    return false;
-  }
-
-  return url.protocol === "http:" || url.protocol === "https:";
-}
-
-function isValidSpotifyPlaylistUrl(hostname, pathname) {
-  return hostname == 'open.spotify.com' && pathname.includes('/playlist/')
-}
-
 </script>

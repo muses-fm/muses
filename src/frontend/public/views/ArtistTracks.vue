@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="12">
             <v-card>
-              <v-subheader>My submissions</v-subheader>
+              <v-subheader>My submitted tracks</v-subheader>
               <v-list two-line>
                 <v-list-item-group v-model="selected" active-class="pink--text">
                   <template v-for="(submission, index) in trackSubmissions">
@@ -13,6 +13,7 @@
                       <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
                       <v-list-item-content>
                         <v-list-item-title>ID: {{ submission.id }}</v-list-item-title>
+                        <!-- TODO: Replace .url with .spotifyTrackId -->
                         <v-list-item-subtitle class="text--primary">{{ submission.url }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -30,6 +31,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { reconstructSpotifyTrackUrl } from '../utils'
 
 export default {
   data: () => {
@@ -44,12 +46,14 @@ export default {
   },
   watch: {
     selected(newValue) {
-      window.open(this.trackSubmissions[newValue].url)
+      // TODO: Replace .url with .spotifyTrackId in the following line
+      const url = reconstructSpotifyTrackUrl(this.trackSubmissions[newValue].url)
+      window.open(url)
     }
   },
   created() {
     if (!this.trackSubmissions.length) {
-      this.$store.dispatch('fetchSubmissions');
+      this.$store.dispatch('fetchSubmittedTracks');
     }
   }
 }
