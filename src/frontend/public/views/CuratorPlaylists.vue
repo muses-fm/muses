@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="12">
             <v-card>
-              <v-subheader>My playlists</v-subheader>
+              <v-subheader>My submitted playlists</v-subheader>
               <v-list two-line>
                 <v-list-item-group v-model="selected" active-class="pink--text">
                   <template v-for="(submission, index) in playlistSubmissions">
@@ -13,6 +13,7 @@
                       <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
                       <v-list-item-content>
                         <v-list-item-title>ID: {{ submission.id }}</v-list-item-title>
+                        <!-- TODO: Replace .url with .spotifyPlaylistId -->
                         <v-list-item-subtitle class="text--primary">{{ submission.url }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -30,6 +31,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { reconstructSpotifyPlaylistUrl } from '../utils'
 
 export default {
   data: () => {
@@ -44,12 +46,14 @@ export default {
   },
   watch: {
     selected(newValue) {
-      window.open(this.submissions[newValue].url)
+      // TODO: Replace .url with .spotifyPlaylistId
+      const url = reconstructSpotifyPlaylistUrl(this.playlistSubmissions[newValue].url)
+      window.open(url)
     }
   },
   created() {
-    if (!this.playlistSubmissions.length) {
-      // this.$store.dispatch('fetchPlaylistSubmissions');
+    if (!this.playlists.length) {
+      this.$store.dispatch('fetchplaylists');
     }
   }
 }

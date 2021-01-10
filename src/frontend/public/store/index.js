@@ -25,8 +25,11 @@ export default new Vuex.Store({
       state.loading.enabled = false
       state.loading.text = ''
     },
-    SET_SUBMISSIONS(state, submissions) {
-      state.trackSubmissions = submissions
+    SET_TRACK_SUBMISSIONS(state, trackSubmissions) {
+      state.trackSubmissions = trackSubmissions
+    },
+    SET_PLAYLIST_SUBMISSIONS(state, playlists) {
+      state.playlistSubmissions = playlists
     },
     SUBMIT_TRACK(state, submission) {
       state.trackSubmissions.push(submission)
@@ -36,11 +39,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchSubmissions({ commit }) {
+    async fetchSubmittedTracks({ commit }) {
       commit('TOGGLE_LOADER_ON', 'Loading data...')
       return new Promise((resolve) => {
         artist.getSubmissions().then(submissions => {
-          commit('SET_SUBMISSIONS', submissions)
+          commit('SET_TRACK_SUBMISSIONS', submissions)
           commit('TOGGLE_LOADER_OFF')
           resolve(submissions)
         });
@@ -54,6 +57,16 @@ export default new Vuex.Store({
           commit('TOGGLE_LOADER_OFF')
           resolve(submission)
         })
+      })
+    },
+    async fetchSubmittedPlaylists({ commit }) {
+      commit('TOGGLE_LOADER_ON', 'Loading data...')
+      return new Promise((resolve) => {
+        curator.getPlaylists().then(playlistSubmissions => {
+          commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
+          commit('TOGGLE_LOADER_OFF')
+          resolve(playlistSubmissions)
+        });
       })
     },
     async submitPlaylist({ commit }, playlistId) {
