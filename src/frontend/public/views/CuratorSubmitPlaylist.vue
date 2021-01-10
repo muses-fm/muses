@@ -9,8 +9,8 @@
               <v-card-text>
                 <v-form ref="form" v-model="isFormValid">
                   <v-text-field v-model="playlistUrl" :rules="playlistUrlRules" label="Playlist URL" required />
-                  <v-btn :disabled="!isFormValid" color="primary" class="mr-4" @click="submit">
-                    Submit
+                  <v-btn :disabled="!isFormValid" color="primary" class="mr-4 mt-4" @click="submit">
+                    Submit playlist
                   </v-btn>
                 </v-form>
               </v-card-text>
@@ -29,16 +29,45 @@ export default {
       isFormValid: false,
       playlistUrl: '',
       playlistUrlRules: [
-        v => !!v || 'Playlist URL is required'
+        v => !!v || 'Playlist URL is required',
+        v => {
+          const url = v && isValidHttpUrl(v) ? new URL(v) : {}
+          return isValidSpotifyPlaylistUrl(url.hostname, url.pathname) || 'This is not a valid Spotify playlist URL'
+        }
       ]
+    }
+  },
+  computed: {
+    playlistId() {
+      const url = this.playlistUrl && isValidHttpUrl(this.playlistUrl) ? new URL(this.playlistUrl) : {}
+      if (isValidSpotifyPlaylistUrl(url.hostname, url.pathname)) {
+        return url.pathname.replace('/playlist/', '')
+      }
     }
   },
   methods: {
     submit() {
-      this.$store.dispatch('submitPlaylist', this.playlistUrl).then(submission => {
-        this.$router.push({ name: 'CuratorPlaylists' })
+      this.$store.dispatch('submitPlaylist', this.playlistId).then(submission => {
+        this.$router.push({ name: 'Curator Playlists' })
       })
     }
   }
 }
+
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+function isValidSpotifyPlaylistUrl(hostname, pathname) {
+  return hostname == 'open.spotify.com' && pathname.includes('/playlist/')
+}
+
 </script>
