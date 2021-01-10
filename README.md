@@ -112,6 +112,19 @@ yarn start
 
 And navigate to [`http://localhost:8080`](http://localhost:8080) to see your changes applied via hot reload.
 
+
+## Deploying to the Internet Computer
+
+In order to deploy to the Internet Computer execute the following command:
+
+```sh
+dfx deploy --network=ic
+```
+
+This should generate a `canister_ids.json` file, where the canister IDs are stored.
+
+Once deployed you can access the frontend canister [here](https://isdig-jiaaa-aaaab-qabla-cai.ic0.app/#/).
+
 ## More
 
 To learn more before you start working with resonate, see the following documentation available online:
