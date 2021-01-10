@@ -42,10 +42,10 @@ export default new Vuex.Store({
         });
       })
     },
-    async submitTrack({ commit }, trackUrl) {
+    async submitTrack({ commit }, trackId) {
       commit('TOGGLE_LOADER_ON', 'Storing data...')
       return new Promise((resolve) => {
-        artist.submitTrack(trackUrl).then(submission => {
+        artist.submitTrack(trackId).then(submission => {
           commit('SUBMIT_TRACK', submission)
           commit('TOGGLE_LOADER_OFF')
           resolve(submission)

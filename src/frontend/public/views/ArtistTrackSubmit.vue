@@ -29,16 +29,45 @@ export default {
       isFormValid: false,
       trackUrl: '',
       trackUrlRules: [
-        v => !!v || 'Track URL is required'
+        v => !!v || 'Track URL is required',
+        v => {
+          const url = v && isValidHttpUrl(v) ? new URL(v) : {}
+          return isValidSpotifyTrackUrl(url.hostname, url.pathname) || 'This is not a valid Spotify track URL'
+        }
       ]
+    }
+  },
+  computed: {
+    trackId() {
+      const url = this.trackUrl && isValidHttpUrl(this.trackUrl) ? new URL(this.trackUrl) : {}
+      if (isValidSpotifyTrackUrl(url.hostname, url.pathname)) {
+        return url.pathname.replace('/track/', '')
+      }
     }
   },
   methods: {
     submit() {
-      this.$store.dispatch('submitTrack', this.trackUrl).then(submission => {
+      this.$store.dispatch('submitTrack', this.trackId).then(submission => {
         this.$router.push({ name: 'Artist Tracks' })
       })
     }
   }
 }
+
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+function isValidSpotifyTrackUrl(hostname, pathname) {
+  return hostname == 'open.spotify.com' && pathname.includes('/track/')
+}
+
 </script>
