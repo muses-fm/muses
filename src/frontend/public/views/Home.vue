@@ -6,10 +6,10 @@
           <v-col class="text-center">
             <h1 class="text-h1">Welcome to Resonate!</h1>
             <div class="mt-16">
-              <v-btn x-large color="primary" class="mr-5" :to="{ name: 'Artist' }">
+              <v-btn x-large color="primary" class="ma-2" :to="{ name: 'Artist' }">
                 I am an Artist
               </v-btn>
-              <v-btn x-large color="secondary" :to="{ name: 'Curator' }">
+              <v-btn x-large color="secondary" class="ma-2" :to="{ name: 'Curator' }">
                 I am a Curator
               </v-btn>
             </div>
