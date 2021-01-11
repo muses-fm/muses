@@ -1,10 +1,5 @@
 <template>
   <div>
-    <v-system-bar app>
-      <v-spacer></v-spacer>
-      <router-link :to="{name: 'Curator'}">Switch to Curator view</router-link>
-    </v-system-bar>
-
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-4" class="pa-4">
         <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
@@ -21,6 +16,14 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer">MENU</v-app-bar-nav-icon>
+      <v-toolbar-title></v-toolbar-title>
+      <v-spacer/>
+      <router-link :to="{name: 'Curator'}">Switch to Curator view</router-link>
+    </v-app-bar>
+
     <router-view v-if="!loading.enabled"></router-view>
     <v-overlay v-else :value="loading.enabled" class="text-center">
       <div class="mb-5">{{ loading.text }}</div>
