@@ -73,7 +73,10 @@ export default new Vuex.Store({
       commit('TOGGLE_LOADER_ON', 'Storing data...')
       return new Promise((resolve) => {
         curator.qualifyPlaylist(playlistId).then(submission => {
-          commit('SUBMIT_PLAYLIST', submission)
+          // TODO: Find out why returned value is an array with 1 element
+          if (submission && submission.length > 1){
+            commit('SUBMIT_PLAYLIST', submission[0])
+          }
           commit('TOGGLE_LOADER_OFF')
           resolve(submission)
         })

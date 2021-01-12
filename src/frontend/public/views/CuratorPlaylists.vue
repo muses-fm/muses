@@ -52,8 +52,8 @@ export default {
     }
   },
   created() {
-    if (!this.playlists.length) {
-      this.$store.dispatch('fetchplaylists');
+    if (!this.playlistSubmissions.length) {
+      this.$store.dispatch('fetchSubmittedPlaylists');
     }
   }
 }
