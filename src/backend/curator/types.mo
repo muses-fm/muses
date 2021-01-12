@@ -19,7 +19,7 @@ module {
 
   public type Playlist = {
     id : PlaylistId;
-    url : Text;
+    spotifyPlaylistId : Text;
   };
 
   public type Review = {

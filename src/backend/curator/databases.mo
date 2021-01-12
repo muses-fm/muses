@@ -61,8 +61,8 @@ module {
     let hashMap = HashMap.HashMap<PlaylistId, Playlist>(1, isEq, Hash.hash);
     var nextId : PlaylistId = 1;
 
-    public func create(url_ : Text) : ?Playlist {
-      let existing = findByUrl(url_);
+    public func create(spotifyPlaylistId_ : Text) : ?Playlist {
+      let existing = findBySpotifyPlaylistId(spotifyPlaylistId_);
       switch (existing) {
         case (?existing) { return null; };
         case (null) { () };
@@ -70,7 +70,7 @@ module {
 
       let playlist : Playlist = {
         id = nextId;
-        url = url_;
+        spotifyPlaylistId = spotifyPlaylistId_;
       };
       hashMap.put(nextId, playlist);
       nextId += 1;
@@ -81,9 +81,9 @@ module {
       hashMap.get(id);
     };
 
-    public func findByUrl(url : Text) : ?Playlist {
+    public func findBySpotifyPlaylistId(spotifyPlaylistId : Text) : ?Playlist {
       for ((id, playlist) in hashMap.entries()) {
-        if (url == playlist.url) {
+        if (spotifyPlaylistId == playlist.spotifyPlaylistId) {
           return ?playlist;
         };
       };

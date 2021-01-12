@@ -1,5 +1,5 @@
 module {
-  public func checkPlaylist(url : Text) : Bool {
+  public func checkPlaylist(spotifyPlaylistId : Text) : Bool {
     // TODO: implement
     true;
   };

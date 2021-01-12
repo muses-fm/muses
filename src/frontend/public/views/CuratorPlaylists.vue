@@ -12,9 +12,10 @@
                     <v-list-item :key="`${submission.id}`">
                       <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
                       <v-list-item-content>
-                        <v-list-item-title>ID: {{ submission.id }}</v-list-item-title>
-                        <!-- TODO: Replace .url with .spotifyPlaylistId -->
-                        <v-list-item-subtitle class="text--primary">{{ submission.url }}</v-list-item-subtitle>
+                        <v-list-item-title>Resonate ID: {{ submission.id }}</v-list-item-title>
+                        <v-list-item-subtitle class="text--primary">
+                          Spotify ID: {{ submission.spotifyPlaylistId }}
+                        </v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                     <v-divider v-if="index < playlistSubmissions.length - 1" :key="`divider-${submission.id}`" inset />
@@ -46,8 +47,7 @@ export default {
   },
   watch: {
     selected(newValue) {
-      // TODO: Replace .url with .spotifyPlaylistId
-      const url = reconstructSpotifyPlaylistUrl(this.playlistSubmissions[newValue].url)
+      const url = reconstructSpotifyPlaylistUrl(this.playlistSubmissions[newValue].spotifyPlaylistId)
       window.open(url)
     }
   },
