@@ -6,8 +6,13 @@
           <v-col cols="12">
             <v-card>
               <v-subheader>My submitted tracks</v-subheader>
-              <v-list two-line>
-                <v-list-item-group v-model="selected" active-class="pink--text">
+              <v-skeleton-loader type="list-item-avatar-two-line" v-if="status === initializingStatus">
+              </v-skeleton-loader>
+              <v-list v-else two-line>
+                <v-list-item disabled v-if="trackSubmissions.length == 0">
+                  There are no submitted tracks yet.
+                </v-list-item>
+                <v-list-item-group v-else v-model="selected" active-class="pink--text">
                   <template v-for="(submission, index) in trackSubmissions">
                     <v-list-item :key="`${submission.id}`">
                       <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
@@ -32,6 +37,7 @@
 <script>
 import { mapState } from 'vuex'
 import { reconstructSpotifyTrackUrl } from '../utils'
+import config from '../config.js'
 
 export default {
   data: () => {
@@ -41,19 +47,18 @@ export default {
   },
   computed: {
     ...mapState([
-      'trackSubmissions'
-    ])
+      'trackSubmissions',
+      'status'
+    ]),
+    initializingStatus() {
+      return config.statuses.INITIALIZING;
+    }
   },
   watch: {
     selected(newValue) {
       // TODO: Replace .url with .spotifyTrackId in the following line
       const url = reconstructSpotifyTrackUrl(this.trackSubmissions[newValue].url)
       window.open(url)
-    }
-  },
-  created() {
-    if (!this.trackSubmissions.length) {
-      this.$store.dispatch('fetchSubmittedTracks');
     }
   }
 }

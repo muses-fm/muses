@@ -3,17 +3,19 @@ import Vuex from 'vuex'
 
 import artist from 'ic:canisters/artist';
 import curator from 'ic:canisters/curator';
+import config from '../config.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    status: config.statuses.UNINITIALIZED,
     loading: {
       enabled: false,
       text: ''
     },
     trackSubmissions: [],
-    playlistSubmissions: []
+    playlistSubmissions: [],
   },
   getters: {},
   mutations: {
@@ -36,18 +38,29 @@ export default new Vuex.Store({
     },
     SUBMIT_PLAYLIST(state, submission) {
       state.playlistSubmissions.push(submission)
+    },
+    COMPONENT_WAS_RENDERED(state, componentName) {
+      state.componentWasRendered[componentName] = true
+    },
+    SET_STATUS(state, status) {
+      state.status = status
     }
   },
   actions: {
-    async fetchSubmittedTracks({ commit }) {
-      commit('TOGGLE_LOADER_ON', 'Loading data...')
-      return new Promise((resolve) => {
-        artist.getSubmissions().then(submissions => {
-          commit('SET_TRACK_SUBMISSIONS', submissions)
-          commit('TOGGLE_LOADER_OFF')
-          resolve(submissions)
-        });
-      })
+    async initializeAppWithDataFromIC({ commit }) {
+      commit('SET_STATUS', config.statuses.INITIALIZING)
+
+      const submissions = await artist.getSubmissions()
+      if (submissions.length > 0) {
+        commit('SET_TRACK_SUBMISSIONS', submissions)
+      }
+
+      const playlistSubmissions = await curator.getPlaylists()
+      if (playlistSubmissions.length > 0) {
+        commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
+      }
+
+      commit('SET_STATUS', config.statuses.INITIALIZED)
     },
     async submitTrack({ commit }, trackId) {
       commit('TOGGLE_LOADER_ON', 'Storing data...')
@@ -59,22 +72,12 @@ export default new Vuex.Store({
         })
       })
     },
-    async fetchSubmittedPlaylists({ commit }) {
-      commit('TOGGLE_LOADER_ON', 'Loading data...')
-      return new Promise((resolve) => {
-        curator.getPlaylists().then(playlistSubmissions => {
-          commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
-          commit('TOGGLE_LOADER_OFF')
-          resolve(playlistSubmissions)
-        });
-      })
-    },
     async submitPlaylist({ commit }, playlistId) {
       commit('TOGGLE_LOADER_ON', 'Storing data...')
       return new Promise((resolve) => {
         curator.qualifyPlaylist(playlistId).then(submission => {
           // TODO: Find out why returned value is an array with 1 element
-          if (submission && submission.length > 1){
+          if (submission && submission.length > 0){
             commit('SUBMIT_PLAYLIST', submission[0])
           }
           commit('TOGGLE_LOADER_OFF')
