@@ -22,7 +22,7 @@ module {
   };
 
   public type Review = {
-    id : ReviewId;
+    url : ReviewId;
     content : Text;
     submissionId : SubmissionId;
   };

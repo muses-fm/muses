@@ -15,13 +15,13 @@ actor Curator {
   var playlists : Databases.PlaylistDB = Databases.PlaylistDB();
   var reviews : Databases.ReviewDB = Databases.ReviewDB();
 
-  public shared(msg) func qualifyPlaylist(url : Text) : async ?Playlist {
-    let isQualified = Utils.checkPlaylist(url);
+  public shared(msg) func qualifyPlaylist(spotifyPlaylistId : Text) : async ?Playlist {
+    let isQualified = Utils.checkPlaylist(spotifyPlaylistId);
     if (not isQualified) {
       return null;
     };
 
-    let playlist = playlists.create(url);
+    let playlist = playlists.create(spotifyPlaylistId);
     switch (playlist) {
       case (?playlist) {
         let curator = curators.get(msg.caller);
@@ -36,7 +36,6 @@ actor Curator {
       // TODO: return proper error
       case (null) { return null };
     };
-
     playlist;
   };
 };

@@ -12,7 +12,7 @@
                     <v-list-item :key="`${submission.id}`">
                       <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
                       <v-list-item-content>
-                        <v-list-item-title>ID: {{ submission.id }}</v-list-item-title>                        
+                        <v-list-item-title>ID: {{ submission.id }}</v-list-item-title>
                         <v-list-item-subtitle class="text--primary">{{ submission.spotifyTrackId }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -44,7 +44,7 @@ export default {
     ])
   },
   watch: {
-    selected(newValue) {      
+    selected(newValue) {
       const spotifyTrackId = reconstructSpotifyTrackUrl(this.trackSubmissions[newValue].url)
       window.open(spotifyTrackId)
     }
