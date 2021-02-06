@@ -154,3 +154,15 @@ dfx start --clean
 ```
 
 The --clean option removes checkpoints and stale state information from your project’s cache so that you can restart the Internet Computer replica and web server processes in a clean state.
+
+### How to upgrade the SDK
+
+To [upgrade from a previous SDK version](https://sdk.dfinity.org/docs/developers-guide/install-upgrade-remove.html#_upgrading_to_the_latest_version), run:
+```sh
+dfx upgrade
+```
+
+For a clean installation instead of an upgrade, run:
+```sh
+~/.cache/dfinity/uninstall.sh && sh -ci "$(curl -sSL https://sdk.dfinity.org/install.sh)"
+```
