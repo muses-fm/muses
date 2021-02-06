@@ -115,15 +115,13 @@ And navigate to [`http://localhost:8080`](http://localhost:8080) to see your cha
 
 ## Deploying to the Internet Computer
 
-In order to deploy to the Internet Computer execute the following command:
-
 ```sh
+git checkout devel
+git pull --rebase origin devel
 dfx deploy --network=ic
 ```
 
-This should generate a `canister_ids.json` file, where the canister IDs are stored.
-
-Once deployed you can access the frontend canister [here](https://isdig-jiaaa-aaaab-qabla-cai.ic0.app/#/).
+Once deployed you can access the frontend canister  at https://3zt77-7qaaa-aaaaa-qaaxq-cai.ic0.app/. This is considered to be our `staging` environment.
 
 ## More
 
