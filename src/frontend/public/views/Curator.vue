@@ -41,7 +41,8 @@ export default {
       drawer: null,
       links: [
         { title: 'My playlists', to: { name: 'Curator Playlists' }, icon: 'list' },
-        { title: 'Submit playlist', to: { name: 'Curator Submit Playlist' }, icon: 'publish' }
+        { title: 'Submit playlist', to: { name: 'Curator Submit Playlist' }, icon: 'publish' },
+        { title: 'My Inbox', to: { name: 'Curator Inbox' }, icon: 'inbox' }
       ]
     }
   },

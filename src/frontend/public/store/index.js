@@ -16,6 +16,7 @@ export default new Vuex.Store({
     },
     trackSubmissions: [],
     playlistSubmissions: [],
+    inbox: []
   },
   getters: {},
   mutations: {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     COMPONENT_WAS_RENDERED(state, componentName) {
       state.componentWasRendered[componentName] = true
     },
+    SET_INBOX(state, inbox) {
+      state.inbox = inbox
+    },
     SET_STATUS(state, status) {
       state.status = status
     }
@@ -58,6 +62,12 @@ export default new Vuex.Store({
       const playlistSubmissions = await curator.getPlaylists()
       if (playlistSubmissions.length > 0) {
         commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
+      }
+
+      const inbox = await curator.getPendingSubmissions()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
+      // const inbox = [{id: 'id1'}, {id: 'id2'}]
+      if (inbox.length > 0) {
+        commit('SET_INBOX', inbox)
       }
 
       commit('SET_STATUS', config.statuses.INITIALIZED)
