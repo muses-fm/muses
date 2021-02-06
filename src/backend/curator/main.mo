@@ -9,7 +9,7 @@ actor Curator {
   type PlaylistId = Types.PlaylistId;
   type Playlist = Types.Playlist;
   type ProfileId = Types.ProfileId;
-  type Profile = Types.Profile;
+  type CuratorProfile = Types.CuratorProfile;
   type SubmissionId = Types.SubmissionId;
 
   // FIXME: these should be `stable` vars
@@ -27,7 +27,7 @@ actor Curator {
     switch (playlist) {
       case (?playlist) {
         let curator = curators.get(msg.caller);
-        let update : Profile = {
+        let update : CuratorProfile = {
           id = curator.id;
           playlists = Array.append<PlaylistId>(curator.playlists, [playlist.id]);
           reviewed = curator.reviewed;
@@ -55,7 +55,7 @@ actor Curator {
     let curator = curators.find(curatorId);
     switch (curator) {
       case (?curator) {
-        let update : Profile = {
+        let update : CuratorProfile = {
           id = curator.id;
           playlists = curator.playlists;
           reviewed = curator.reviewed;

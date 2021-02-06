@@ -7,7 +7,7 @@ import Types "./types";
 
 
 module {
-  type Profile = Types.Profile;
+  type CuratorProfile = Types.CuratorProfile;
   type ProfileId = Types.ProfileId;
   type Playlist = Types.Playlist;
   type PlaylistId = Types.PlaylistId;
@@ -18,10 +18,10 @@ module {
 
   public class CuratorDB() {
     func isEq(x: ProfileId, y: ProfileId): Bool { x == y };
-    let hashMap = HashMap.HashMap<ProfileId, Profile>(1, isEq, Principal.hash);
+    let hashMap = HashMap.HashMap<ProfileId, CuratorProfile>(1, isEq, Principal.hash);
 
-    public func create(principal : ProfileId) : Profile {
-      let profile : Profile = {
+    public func create(principal : ProfileId) : CuratorProfile {
+      let profile : CuratorProfile = {
         id = principal;
         playlists = [];
         reviewed = [];
@@ -31,7 +31,7 @@ module {
       profile;
     };
 
-    public func find(principal: ProfileId): ?Profile {
+    public func find(principal: ProfileId): ?CuratorProfile {
       hashMap.get(principal);
     };
 
@@ -43,7 +43,7 @@ module {
       profiles;
     };
 
-    public func get(userId: ProfileId): Profile {
+    public func get(userId: ProfileId): CuratorProfile {
       let profile = find(userId);
       switch (profile) {
         case (?profile) { profile };
@@ -51,7 +51,7 @@ module {
       };
     };
 
-    public func update(profile : Profile) {
+    public func update(profile : CuratorProfile) {
       hashMap.put(profile.id, profile);
     };
   };
