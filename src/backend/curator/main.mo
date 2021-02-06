@@ -70,13 +70,9 @@ actor Curator {
     }
   };
 
-  public func getPendingSubmissions(curatorId: ProfileId): async ?[SubmissionId] {
-    let curator = curators.find(curatorId);
-    switch (curator) {
-      case (?curator) { return ?curator.pending };
-      // TODO: raise proper error
-      case (null) { return null };
-    }
+  public shared(msg) func getPendingSubmissions() : async [SubmissionId] {
+    let curator = curators.get(msg.caller);
+    return curator.pending;
   };
 
 };
