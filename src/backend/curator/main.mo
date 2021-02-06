@@ -11,6 +11,7 @@ actor Curator {
   type ProfileId = Types.ProfileId;
   type CuratorProfile = Types.CuratorProfile;
   type SubmissionId = Types.SubmissionId;
+  type Review = Types.Review;
 
   // FIXME: these should be `stable` vars
   var curators : Databases.CuratorDB = Databases.CuratorDB();
@@ -73,6 +74,24 @@ actor Curator {
   public shared(msg) func getPendingSubmissions() : async [SubmissionId] {
     let curator = curators.get(msg.caller);
     return curator.pending;
+  };
+
+  public shared(msg) func reviewSubmission(submissionId: SubmissionId, content: Text) : async ?Review {
+    let curator = curators.get(msg.caller);
+    let newPending = Array.filter<SubmissionId>(curator.pending, func x { x != submissionId });
+    var review: ?Review = null;
+    if (newPending.size() < curator.pending.size()) {
+      let update : Profile = {
+        id = curator.id;
+        playlists = curator.playlists;
+        reviewed = Array.append<SubmissionId>(curator.reviewed, [submissionId]);
+        pending = newPending;
+      };
+      curators.update(update);
+      review := await reviews.create(content, submissionId);
+    };
+
+    return review;
   };
 
 };
