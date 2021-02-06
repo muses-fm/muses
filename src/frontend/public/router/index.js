@@ -7,6 +7,7 @@ import ArtistTracks from '../views/ArtistTracks.vue'
 import ArtistTrackSubmit from '../views/ArtistTrackSubmit.vue'
 import CuratorSubmitPlaylist from '../views/CuratorSubmitPlaylist.vue'
 import CuratorPlaylists from '../views/CuratorPlaylists.vue'
+import CuratorInbox from '../views/CuratorInbox.vue'
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,8 @@ const routes = [
   { path: '/curator', name: 'Curator', component: Curator,
     children: [
       { path: 'submit', name: 'Curator Submit Playlist', component: CuratorSubmitPlaylist },
-      { path: 'playlists', name: 'Curator Playlists', component: CuratorPlaylists }
+      { path: 'playlists', name: 'Curator Playlists', component: CuratorPlaylists },
+      { path: 'inbox', name: 'Curator Inbox', component: CuratorInbox }
     ]
   },
 ]
