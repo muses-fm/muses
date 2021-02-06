@@ -46,10 +46,10 @@ module {
     let hashMap = HashMap.HashMap<SubmissionId, Submission>(1, isEq, Hash.hash);
     var nextId : SubmissionId = 1;
 
-    public func create(url_ : Text) : Submission {
+    public func create(spotifyTrackId_ : Text) : Submission {
       let submission = {
         id = nextId;
-        url = url_;
+        spotifyTrackId = spotifyTrackId_;
       };
       hashMap.put(nextId, submission);
       nextId += 1;

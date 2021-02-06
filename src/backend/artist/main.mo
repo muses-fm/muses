@@ -16,9 +16,9 @@ actor Artist {
   var artists : Databases.ArtistDB = Databases.ArtistDB();
   var submissions : Databases.SubmissionDB = Databases.SubmissionDB();
 
-  public shared(msg) func submitTrack(url : Text) : async Submission {
+  public shared(msg) func submitTrack(spotifyTrackId : Text) : async Submission {
     let artist = artists.get(msg.caller);
-    let submission = submissions.create(url);
+    let submission = submissions.create(spotifyTrackId);
     let update : ArtistProfile = {
       id = artist.id;
       submissions = Array.append<Nat>(artist.submissions, [submission.id]);

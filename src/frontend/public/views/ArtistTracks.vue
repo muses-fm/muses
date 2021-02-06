@@ -18,8 +18,7 @@
                       <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
                       <v-list-item-content>
                         <v-list-item-title>ID: {{ submission.id }}</v-list-item-title>
-                        <!-- TODO: Replace .url with .spotifyTrackId -->
-                        <v-list-item-subtitle class="text--primary">{{ submission.url }}</v-list-item-subtitle>
+                        <v-list-item-subtitle class="text--primary">{{ submission.spotifyTrackId }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                     <v-divider v-if="index < trackSubmissions.length - 1" :key="`divider-${submission.id}`" inset />
@@ -56,8 +55,7 @@ export default {
   },
   watch: {
     selected(newValue) {
-      // TODO: Replace .url with .spotifyTrackId in the following line
-      const url = reconstructSpotifyTrackUrl(this.trackSubmissions[newValue].url)
+      const url = reconstructSpotifyTrackUrl(this.trackSubmissions[newValue].spotifyTrackId)
       window.open(url)
     }
   }

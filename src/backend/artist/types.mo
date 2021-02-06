@@ -11,6 +11,6 @@ module {
 
   public type Submission = {
     id : SubmissionId;
-    url : Text;
+    spotifyTrackId : Text;
   };
 }
