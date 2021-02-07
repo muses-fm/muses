@@ -25,5 +25,6 @@ module {
     id : ReviewId;
     content : Text;
     submissionId : SubmissionId;
+    playlist: ?PlaylistId;
   };
 }
