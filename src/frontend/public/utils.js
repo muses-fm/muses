@@ -28,10 +28,15 @@ function reconstructSpotifyTrackUrl(trackId) {
   return `https://${config.spotifyHostname}/track/${trackId}`
 }
 
+function constructSpotifyTrackEmbedUrl(trackId) {
+  return `https://${config.spotifyHostname}/embed/track/${trackId}`
+}
+
 export {
   isValidHttpUrl,
   isValidSpotifyPlaylistUrl,
   isValidSpotifyTrackUrl,
   reconstructSpotifyPlaylistUrl,
-  reconstructSpotifyTrackUrl
+  reconstructSpotifyTrackUrl,
+  constructSpotifyTrackEmbedUrl
 }
