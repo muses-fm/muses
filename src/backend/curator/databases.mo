@@ -9,7 +9,7 @@ import Types "./types";
 
 module {
   type CuratorProfile = Types.CuratorProfile;
-  type ProfileId = Types.ProfileId;
+  type CuratorProfileId = Types.CuratorProfileId;
   type Playlist = Types.Playlist;
   type PlaylistId = Types.PlaylistId;
   type ReviewId = Types.ReviewId;
@@ -17,11 +17,11 @@ module {
   type SubmissionId = Types.SubmissionId;
   type Submission = Types.Submission;
 
-  public class CuratorDB(store : [(ProfileId, CuratorProfile)]) {
-    func isEq(x: ProfileId, y: ProfileId): Bool { x == y };
-    let hashMap = HashMap.HashMap<ProfileId, CuratorProfile>(1, isEq, Principal.hash);
+  public class CuratorDB(store : [(CuratorProfileId, CuratorProfile)]) {
+    func isEq(x: CuratorProfileId, y: CuratorProfileId): Bool { x == y };
+    let hashMap = HashMap.HashMap<CuratorProfileId, CuratorProfile>(1, isEq, Principal.hash);
 
-    public func create(principal : ProfileId) : CuratorProfile {
+    public func create(principal : CuratorProfileId) : CuratorProfile {
       let profile : CuratorProfile = {
         id = principal;
         playlists = [];
@@ -32,19 +32,19 @@ module {
       profile;
     };
 
-    public func find(principal: ProfileId): ?CuratorProfile {
+    public func find(principal: CuratorProfileId): ?CuratorProfile {
       hashMap.get(principal);
     };
 
-    public func findAllIds() : [ProfileId] {
-      var profiles : [ProfileId] = [];
+    public func findAllIds() : [CuratorProfileId] {
+      var profiles : [CuratorProfileId] = [];
       for ((id, profile) in hashMap.entries()) {
-        profiles := Array.append<ProfileId>(profiles, [profile.id]);
+        profiles := Array.append<CuratorProfileId>(profiles, [profile.id]);
       };
       profiles;
     };
 
-    public func get(userId: ProfileId): CuratorProfile {
+    public func get(userId: CuratorProfileId): CuratorProfile {
       let profile = find(userId);
       switch (profile) {
         case (?profile) { profile };
@@ -56,7 +56,7 @@ module {
       hashMap.put(profile.id, profile);
     };
 
-    public func toArray(): [(ProfileId, CuratorProfile)] {
+    public func toArray(): [(CuratorProfileId, CuratorProfile)] {
       Iter.toArray(hashMap.entries());
     };
   };

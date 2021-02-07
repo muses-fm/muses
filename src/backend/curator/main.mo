@@ -6,15 +6,15 @@ import Types "./types";
 import Utils "./utils";
 
 actor Curator {
+  type CuratorProfileId = Types.CuratorProfileId;
+  type CuratorProfile = Types.CuratorProfile;
   type PlaylistId = Types.PlaylistId;
   type Playlist = Types.Playlist;
-  type ProfileId = Types.ProfileId;
   type Review = Types.Review;
   type ReviewId = Types.ReviewId;
-  type CuratorProfile = Types.CuratorProfile;
   type SubmissionId = Types.SubmissionId;
 
-  stable var curatorStore : [(ProfileId, CuratorProfile)] = [];
+  stable var curatorStore : [(CuratorProfileId, CuratorProfile)] = [];
   let curators : Databases.CuratorDB = Databases.CuratorDB(curatorStore);
 
   stable var playlistStore : [(PlaylistId, Playlist)] = [];
@@ -48,7 +48,7 @@ actor Curator {
     playlist;
   };
 
-  public func getAllCuratorIds() : async [ProfileId] {
+  public func getAllCuratorIds() : async [CuratorProfileId] {
     curators.findAllIds();
   };
 
@@ -57,7 +57,7 @@ actor Curator {
     Array.mapFilter<PlaylistId, Playlist>(curator.playlists, func x { playlists.find(x) });
   };
 
-  public func receiveSubmission(curatorId: ProfileId, submissionId: SubmissionId) : async () {
+  public func receiveSubmission(curatorId: CuratorProfileId, submissionId: SubmissionId) : async () {
     let curator = curators.find(curatorId);
     switch (curator) {
       case (?curator) {
