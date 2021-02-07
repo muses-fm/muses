@@ -1,6 +1,7 @@
 import Array "mo:base/Array";
 import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
+import Iter "mo:base/Iter";
 import Principal "mo:base/Principal";
 
 import Types "./types";
@@ -16,7 +17,7 @@ module {
   type SubmissionId = Types.SubmissionId;
   type Submission = Types.Submission;
 
-  public class CuratorDB() {
+  public class CuratorDB(store : [(ProfileId, CuratorProfile)]) {
     func isEq(x: ProfileId, y: ProfileId): Bool { x == y };
     let hashMap = HashMap.HashMap<ProfileId, CuratorProfile>(1, isEq, Principal.hash);
 
@@ -54,9 +55,13 @@ module {
     public func update(profile : CuratorProfile) {
       hashMap.put(profile.id, profile);
     };
+
+    public func toArray(): [(ProfileId, CuratorProfile)] {
+      Iter.toArray(hashMap.entries());
+    };
   };
 
-  public class PlaylistDB() {
+  public class PlaylistDB(store : [(PlaylistId, Playlist)]) {
     func isEq(x: PlaylistId, y: PlaylistId): Bool { x == y };
     let hashMap = HashMap.HashMap<PlaylistId, Playlist>(1, isEq, Hash.hash);
     var nextId : PlaylistId = 1;
@@ -89,9 +94,13 @@ module {
       };
       return null;
     };
+
+    public func toArray(): [(PlaylistId, Playlist)] {
+      Iter.toArray(hashMap.entries());
+    };
   };
 
-  public class ReviewDB() {
+  public class ReviewDB(store : [(ReviewId, Review)]) {
     func isEq(x: ReviewId, y: ReviewId): Bool { x == y};
     let hashMap = HashMap.HashMap<ReviewId, Review>(1, isEq, Hash.hash);
     var nextId : ReviewId = 1;
@@ -120,9 +129,11 @@ module {
           case (null) { () };
         }
       };
-
       return reviews;
     };
-  };
 
+    public func toArray(): [(ReviewId, Review)] {
+      Iter.toArray(hashMap.entries());
+    };
+  };
 }

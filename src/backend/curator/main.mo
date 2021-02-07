@@ -9,14 +9,19 @@ actor Curator {
   type PlaylistId = Types.PlaylistId;
   type Playlist = Types.Playlist;
   type ProfileId = Types.ProfileId;
+  type Review = Types.Review;
+  type ReviewId = Types.ReviewId;
   type CuratorProfile = Types.CuratorProfile;
   type SubmissionId = Types.SubmissionId;
-  type Review = Types.Review;
 
-  // FIXME: these should be `stable` vars
-  var curators : Databases.CuratorDB = Databases.CuratorDB();
-  var playlists : Databases.PlaylistDB = Databases.PlaylistDB();
-  var reviews : Databases.ReviewDB = Databases.ReviewDB();
+  stable var curatorStore : [(ProfileId, CuratorProfile)] = [];
+  let curators : Databases.CuratorDB = Databases.CuratorDB(curatorStore);
+
+  stable var playlistStore : [(PlaylistId, Playlist)] = [];
+  let playlists : Databases.PlaylistDB = Databases.PlaylistDB(playlistStore);
+
+  stable var reviewStore : [(ReviewId, Review)] = [];
+  let reviews : Databases.ReviewDB = Databases.ReviewDB(reviewStore);
 
   public shared(msg) func qualifyPlaylist(spotifyPlaylistId : Text) : async ?Playlist {
     let isQualified = Utils.checkPlaylist(spotifyPlaylistId);
@@ -103,4 +108,17 @@ actor Curator {
     return await reviews.getReviewsBySubmissions(curator.reviewed);
   };
 
+  system func preupgrade() {
+    // save databases to stable variable before upgrade
+    curatorStore := curators.toArray();
+    playlistStore := playlists.toArray();
+    reviewStore := reviews.toArray();
+  };
+
+  system func postupgrade() {
+    // empty the stores after upgrading to free memory
+    curatorStore := [];
+    playlistStore := [];
+    reviewStore := [];
+  }
 };
