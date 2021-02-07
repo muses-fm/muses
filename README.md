@@ -1,6 +1,6 @@
 # res(o)nate
 
-res(o)nate is a decentralized music curation platform that allows artists to distribute new releases to playlist curators without intermediaries.
+res(o)nate is a decentralized music curation platform that allows artists to distribute new releases to playlist curators without intermediaries. Try the [demo](http://ryaba-2iaaa-aaaab-aac2a-cai.ic0.app/) on DFINITY testnet.
 
 ## Development
 
@@ -111,17 +111,6 @@ yarn start
 > **NOTE:** You will need to comment out code that imports or uses canisters and manually mock responses to make the above command work.
 
 And navigate to [`http://localhost:8080`](http://localhost:8080) to see your changes applied via hot reload.
-
-
-## Deploying to the Internet Computer
-
-```sh
-git checkout devel
-git pull --rebase origin devel
-dfx deploy --network=ic
-```
-
-Once deployed you can access the frontend canister  at https://3zt77-7qaaa-aaaaa-qaaxq-cai.ic0.app/. This is considered to be our `staging` environment.
 
 ## More
 

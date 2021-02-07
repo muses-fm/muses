@@ -1,0 +1,43 @@
+name: deployment
+
+on:
+  push:
+    branches:
+      - devel
+
+
+env:
+  DFX_IDENTITY: ${{ secrets.DFX_IDENTITY }}
+  DFX_IDENTITY_DIR: /home/runner/.config/dfx/identity/default
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Read dfx version
+        run: echo ::set-output name=DFX_VERSION::$(cat dfx.json | jq --raw-output '.dfx')
+        id: dfxrc
+      - name: Install DFINITY SDK
+        env:
+          DFX_VERSION: ${{ steps.dfxrc.outputs.DFX_VERSION }}
+        run: |
+          echo "DFX_VERSION=$DFX_VERSION"
+          wget --no-check-certificate https://sdk.dfinity.org/install.sh
+          yes Y | sh install.sh
+          echo "/home/runner/bin" >> $GITHUB_PATH
+      - name: Read .nvmrc
+        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+        id: nvmrc
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.nvmrc.outputs.NVMRC }}
+      - name: Install dependencies
+        run: yarn install
+      - name: Provision dfx identity key
+        run: |
+          mkdir -p "$DFX_IDENTITY_DIR"
+          echo "$DFX_IDENTITY" > "$DFX_IDENTITY_DIR/identity.pem"
+      - name: Deploy to testnet
+        run: dfx deploy --network=ic
