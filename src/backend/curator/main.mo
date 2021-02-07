@@ -94,4 +94,13 @@ actor Curator {
     return review;
   };
 
+  public func getReviewsBySubmissions(submissionIds : [SubmissionId]) : async [Review] {
+    return await reviews.getReviewsBySubmissions(submissionIds);
+  };
+
+  public shared(msg) func getAllReviews() : async [Review] {
+    let curator = curators.get(msg.caller);
+    return await reviews.getReviewsBySubmissions(curator.reviewed);
+  };
+
 };

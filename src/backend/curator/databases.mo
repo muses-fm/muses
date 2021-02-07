@@ -107,6 +107,22 @@ module {
       hashMap.put(nextId, review);
       nextId += 1;
       return ?review;
-    }
+    };
+
+    public func getReviewsBySubmissions(submissionIds_ : [SubmissionId]) : async [Review] {
+      var reviews : [Review] = [];
+      for ((k, v) in hashMap.entries()) {
+        let submissionId = Array.find<SubmissionId>(submissionIds_, func x { x == v.submissionId });
+        switch (submissionId) {
+          case (?submissionId) {
+            reviews := Array.append<Review>(reviews, [v])
+          };
+          case (null) { () };
+        }
+      };
+
+      return reviews;
+    };
   };
+
 }
