@@ -1,4 +1,5 @@
 import Array "mo:base/Array";
+import Error "mo:base/Error";
 import Option "mo:base/Option";
 
 import Databases "./databases";
@@ -26,7 +27,7 @@ actor Curator {
   public shared(msg) func qualifyPlaylist(spotifyPlaylistId : Text) : async ?Playlist {
     let isQualified = Utils.checkPlaylist(spotifyPlaylistId);
     if (not isQualified) {
-      return null;
+      throw Error.reject("Playlist cannot be qualified");
     };
 
     let playlist = playlists.create(spotifyPlaylistId);
@@ -41,8 +42,9 @@ actor Curator {
         };
         curators.update(update);
       };
-      // TODO: return proper error
-      case (null) { return null };
+      case (null) {
+        throw Error.reject("Playlist already exists")
+      };
     };
 
     playlist;
@@ -71,8 +73,9 @@ actor Curator {
         curators.update(update);
         return ();
       };
-      // TODO: raise proper error
-      case (null) { () };
+      case (null) {
+        throw Error.reject("Curator with such id does not exist");
+      };
     }
   };
 
