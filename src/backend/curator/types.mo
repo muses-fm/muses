@@ -2,7 +2,7 @@ import Principal "mo:base/Principal";
 import ArtistTypes "../artist/types"
 
 module {
-  public type ProfileId = Principal;
+  public type CuratorProfileId = Principal;
   public type ReviewId = Nat;
   public type PlaylistId = Nat;
 
@@ -10,7 +10,7 @@ module {
   public type Submission = ArtistTypes.Submission;
 
   public type CuratorProfile = {
-    id : ProfileId;
+    id : CuratorProfileId;
     playlists : [PlaylistId];
     reviewed : [SubmissionId];
     pending : [SubmissionId];
