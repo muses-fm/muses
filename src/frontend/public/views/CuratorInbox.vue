@@ -79,10 +79,10 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-btn color="red" dark @click="reject">Reject</v-btn>
           <v-btn text @click="resetDialog">Cancel</v-btn>
-          <v-btn color="red" dark @click="resetDialog">Reject</v-btn>
-          <v-btn color="green" dark @click="resetDialog">Accept</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="green" dark @click="accept">Accept</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -131,6 +131,20 @@ export default {
       this.feedback = ''
       this.addToPlaylist = null
       this.dialog = false
+    },
+    accept() {
+      this.submitReview(this.currentlyReviewingSubmissionId, this.feedback, this.addToPlaylist)
+    },
+    reject() {
+      this.submitReview(this.currentlyReviewingSubmissionId, this.feedback, 0)
+    },
+    submitReview(submissionId, feedback, playlistId) {
+      this.$store.dispatch('review', {
+        submissionId: submissionId,
+        feedback: feedback,
+        playlistId: playlistId
+      })
+      this.resetDialog()
     }
   }
 }

@@ -117,6 +117,16 @@ export default new Vuex.Store({
       if (inbox.length > 0) {
         commit('SET_INBOX', inbox)
       }
+    },
+    async review({ commit }, { submissionId, feedback, playlistId }) {
+      commit('TOGGLE_LOADER_ON', 'Submitting review...')
+
+      // TODO: Figure out how to fix:
+      // Uncaught (in promise) Error: Invalid opt nat argument: ""1""
+      const review = await curator.reviewSubmission(submissionId, feedback, playlistId)  // TO COMMENT OUT WHEN RUNNING DEV SERVER
+      console.log(review);
+
+      commit('TOGGLE_LOADER_OFF')
     }
   }
 })
