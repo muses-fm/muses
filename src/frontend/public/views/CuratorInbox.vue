@@ -18,7 +18,7 @@
                     <v-list-item-content>
                       <v-list-item-title>Resonate track submission ID: {{ submission.id }}</v-list-item-title>
                       <v-list-item-subtitle class="text--primary">
-                        Spotify track ID: ?
+                        Spotify track ID: {{ submission.spotifyTrackId }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
