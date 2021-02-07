@@ -134,8 +134,11 @@ To learn more before you start working with resonate, see the following document
 If the docs are not helping, these are other resources you can draw inspiration from:
 - [Awesome DFINITY repository](https://github.com/dfinity/awesome-dfinity)
 - [DFINITY examples](https://github.com/dfinity/examples)
-- [DFINITY forum](https://forum.dfinity.org/)
 - [LinkedUp](https://github.com/dfinity/linkedup)
+- [motoko-sequence](https://github.com/matthewhammer/motoko-sequence)
+
+If nothing helps and you are stuck, these are places you can go ask for guidance:
+- [DFINITY forum](https://forum.dfinity.org/)
 
 ## Troubleshooting
 
