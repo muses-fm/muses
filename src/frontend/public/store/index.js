@@ -74,49 +74,41 @@ export default new Vuex.Store({
       commit('SET_STATUS', config.statuses.INITIALIZED)
     },
     async submitTrack({ dispatch, commit }, trackId) {
-      commit('TOGGLE_LOADER_ON', 'Storing data...')
-      return new Promise((resolve) => {
-        artist.submitTrack(trackId).then(submission => {  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-          // const submission = 'testtracksubmission'  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      commit('TOGGLE_LOADER_ON', 'Storing track...')
 
-          dispatch('getPendingSubmissions')
+      const submission = await artist.submitTrack(trackId)  // TO COMMENT OUT WHEN RUNNING DEV SERVER
+      // const submission = [{id: '1', spotifyTrackId: 'test'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      dispatch('getPendingSubmissions')
+      commit('SUBMIT_TRACK', submission)
 
-          commit('SUBMIT_TRACK', submission)
-          commit('TOGGLE_LOADER_OFF')
-          resolve(submission)
-        })  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      })
+      commit('TOGGLE_LOADER_OFF')
+      return submission
     },
     async submitPlaylist({ commit }, playlistId) {
-      commit('TOGGLE_LOADER_ON', 'Storing data...')
-      return new Promise((resolve) => {
-        curator.qualifyPlaylist(playlistId).then(submission => {  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-          // const submission = ['testplaylistsubmission']  // TO UNCOMMENT WHEN RUNNING DEV SERVER
-          // TODO: Find out why returned value is an array with 1 element
-          if (submission && submission.length > 0){
-            commit('SUBMIT_PLAYLIST', submission[0])
-          }
-          commit('TOGGLE_LOADER_OFF')
-          resolve(submission)
-        })  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      })
+      commit('TOGGLE_LOADER_ON', 'Storing playlist...')
+
+      const submission = await curator.qualifyPlaylist(playlistId)  // TO COMMENT OUT WHEN RUNNING DEV SERVER
+      // const submission = [{id: '1', spotifyPlaylistId: 'test'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      // TODO: Find out why returned value is an array with 1 element
+      if (submission && submission.length > 0){
+        commit('SUBMIT_PLAYLIST', submission[0])
+      }
+
+      commit('TOGGLE_LOADER_OFF')
+      return submission[0]
     },
     async getPendingSubmissions({ commit }) {
       const submissionIds = await curator.getPendingSubmissions()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
       // const submissionIds = [{id: 'id1'}, {id: 'id2'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
-
       const inbox = []
-
       for (let i = 0; i < submissionIds.length; i++) {
         const submission = await artist.getSubmission(submissionIds[i]);  // TO COMMENT OUT WHEN RUNNING DEV SERVER
         // const submission = {id: 'id1', spotifyTrackId: 'lalala'}  // TO UNCOMMENT WHEN RUNNING DEV SERVER
-
         // TODO: Find out why returned value is an array with 1 element
         if (submission && submission.length > 0){
           inbox.push(submission[0])
         }
       }
-
       if (inbox.length > 0) {
         commit('SET_INBOX', inbox)
       }
