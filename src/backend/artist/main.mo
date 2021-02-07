@@ -9,13 +9,16 @@ import Types "./types";
 
 actor Artist {
   type ArtistProfile = Types.ArtistProfile;
+  type ArtistProfileId = Types.ArtistProfileId;
   type Submission = Types.Submission;
   type SubmissionId = Types.SubmissionId;
   type Review = Curator.Review;
 
-  // FIXME: these should be `stable` vars
-  var artists : Databases.ArtistDB = Databases.ArtistDB();
-  var submissions : Databases.SubmissionDB = Databases.SubmissionDB();
+  stable var artistStore : [(ArtistProfileId, ArtistProfile)] = [];
+  let artists : Databases.ArtistDB = Databases.ArtistDB(artistStore);
+
+  stable var submissionStore : [(SubmissionId, Submission)] = [];
+  let submissions : Databases.SubmissionDB = Databases.SubmissionDB(submissionStore);
 
   public shared(msg) func submitTrack(spotifyTrackId : Text) : async Submission {
     let artist = artists.get(msg.caller);
@@ -47,4 +50,15 @@ actor Artist {
     return await Curator.getReviewsBySubmissions(artist.submissions);
   };
 
+  system func preupgrade() {
+    // save databases to stable variable before upgrade
+    artistStore := artists.toArray();
+    submissionStore := submissions.toArray();
+  };
+
+  system func postupgrade() {
+    // empty the stores after upgrading to free memory
+    artistStore := [];
+    submissionStore := [];
+  }
 };

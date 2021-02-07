@@ -1,6 +1,7 @@
 import Array "mo:base/Array";
 import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
+import Iter "mo:base/Iter";
 import Principal "mo:base/Principal";
 
 import Types "./types";
@@ -11,9 +12,9 @@ module {
   type Submission = Types.Submission;
   type SubmissionId = Types.SubmissionId;
 
-  public class ArtistDB() {
+  public class ArtistDB(store : [(ArtistProfileId, ArtistProfile)]) {
     func isEq(x: ArtistProfileId, y: ArtistProfileId): Bool { x == y };
-    let hashMap = HashMap.HashMap<ArtistProfileId, ArtistProfile>(1, isEq, Principal.hash);
+    let hashMap = HashMap.fromIter<ArtistProfileId, ArtistProfile>(store.vals(), 1, isEq, Principal.hash);
 
     public func create(principal : ArtistProfileId) : ArtistProfile {
       let profile : ArtistProfile = {
@@ -39,11 +40,15 @@ module {
     public func update(profile : ArtistProfile) {
       hashMap.put(profile.id, profile);
     };
+
+    public func toArray(): [(ArtistProfileId, ArtistProfile)] {
+      Iter.toArray(hashMap.entries());
+    };
   };
 
-  public class SubmissionDB() {
+  public class SubmissionDB(store : [(SubmissionId, Submission)]) {
     func isEq(x: SubmissionId, y: SubmissionId): Bool { x == y };
-    let hashMap = HashMap.HashMap<SubmissionId, Submission>(1, isEq, Hash.hash);
+    let hashMap = HashMap.fromIter<SubmissionId, Submission>(store.vals(), 1, isEq, Hash.hash);
     var nextId : SubmissionId = 1;
 
     public func create(spotifyTrackId_ : Text) : Submission {
@@ -58,6 +63,10 @@ module {
 
     public func find(id : Nat) : ?Submission {
       hashMap.get(id);
+    };
+
+    public func toArray(): [(SubmissionId, Submission)] {
+      Iter.toArray(hashMap.entries());
     };
   }
 }
