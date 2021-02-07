@@ -76,19 +76,19 @@ actor Curator {
     return curator.pending;
   };
 
-  public shared(msg) func reviewSubmission(submissionId: SubmissionId, content: Text) : async ?Review {
+  public shared(msg) func reviewSubmission(submissionId: SubmissionId, content: Text, playlistId: ?PlaylistId) : async ?Review {
     let curator = curators.get(msg.caller);
-    let newPending = Array.filter<SubmissionId>(curator.pending, func x { x != submissionId });
+    let remainingPendingSubmissions = Array.filter<SubmissionId>(curator.pending, func x { x != submissionId });
     var review: ?Review = null;
-    if (newPending.size() < curator.pending.size()) {
-      let update : Profile = {
+    if (remainingPendingSubmissions.size() < curator.pending.size()) {
+      let update : CuratorProfile = {
         id = curator.id;
         playlists = curator.playlists;
         reviewed = Array.append<SubmissionId>(curator.reviewed, [submissionId]);
-        pending = newPending;
+        pending = remainingPendingSubmissions;
       };
       curators.update(update);
-      review := await reviews.create(content, submissionId);
+      review := await reviews.create(content, submissionId, playlistId);
     };
 
     return review;

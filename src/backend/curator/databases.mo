@@ -96,12 +96,13 @@ module {
     let hashMap = HashMap.HashMap<ReviewId, Review>(1, isEq, Hash.hash);
     var nextId : ReviewId = 1;
 
-    public func create(content_: Text, submissionId_: SubmissionId) : async ?Review {
+    public func create(content_ : Text, submissionId_ : SubmissionId, playlistId_ : ?PlaylistId) : async ?Review {
       // TODO: prevent creating reviews for non-existing submissions
       let review : Review = {
         id = nextId;
         content = content_;
         submissionId = submissionId_;
+        playlist = playlistId_;
       };
       hashMap.put(nextId, review);
       nextId += 1;
