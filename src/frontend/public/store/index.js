@@ -51,34 +51,33 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async initializeAppWithDataFromIC({ commit }) {
+    async initializeAppWithDataFromIC({ dispatch, commit }) {
       commit('SET_STATUS', config.statuses.INITIALIZING)
 
       const submissions = await artist.getSubmissions()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const submissions = [{id: 'test submission'}]
+      // const submissions = [{id: 'test submission'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
       if (submissions.length > 0) {
         commit('SET_TRACK_SUBMISSIONS', submissions)
       }
 
       const playlistSubmissions = await curator.getPlaylists()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const playlistSubmissions = [{id: 'test playlist'}]
+      // const playlistSubmissions = [{id: 'test playlist'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
       if (playlistSubmissions.length > 0) {
         commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
       }
 
-      const inbox = await curator.getPendingSubmissions()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const inbox = [{id: 'id1'}, {id: 'id2'}]
-      if (inbox.length > 0) {
-        commit('SET_INBOX', inbox)
-      }
+      await dispatch('getPendingSubmissions')
 
       commit('SET_STATUS', config.statuses.INITIALIZED)
     },
-    async submitTrack({ commit }, trackId) {
+    async submitTrack({ dispatch, commit }, trackId) {
       commit('TOGGLE_LOADER_ON', 'Storing data...')
       return new Promise((resolve) => {
         artist.submitTrack(trackId).then(submission => {  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-          // const submission = 'testtracksubmission'
+          // const submission = 'testtracksubmission'  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+
+          dispatch('getPendingSubmissions')
+
           commit('SUBMIT_TRACK', submission)
           commit('TOGGLE_LOADER_OFF')
           resolve(submission)
@@ -89,7 +88,7 @@ export default new Vuex.Store({
       commit('TOGGLE_LOADER_ON', 'Storing data...')
       return new Promise((resolve) => {
         curator.qualifyPlaylist(playlistId).then(submission => {  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-          // const submission = ['testplaylistsubmission']
+          // const submission = ['testplaylistsubmission']  // TO UNCOMMENT WHEN RUNNING DEV SERVER
           // TODO: Find out why returned value is an array with 1 element
           if (submission && submission.length > 0){
             commit('SUBMIT_PLAYLIST', submission[0])
@@ -98,6 +97,26 @@ export default new Vuex.Store({
           resolve(submission)
         })  // TO COMMENT OUT WHEN RUNNING DEV SERVER
       })
+    },
+    async getPendingSubmissions({ commit }) {
+      const submissionIds = await curator.getPendingSubmissions()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
+      // const submissionIds = [{id: 'id1'}, {id: 'id2'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+
+      const inbox = []
+
+      for (let i = 0; i < submissionIds.length; i++) {
+        const submission = await artist.getSubmission(submissionIds[i]);  // TO COMMENT OUT WHEN RUNNING DEV SERVER
+        // const submission = {id: 'id1', spotifyTrackId: 'lalala'}  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+
+        // TODO: Find out why returned value is an array with 1 element
+        if (submission && submission.length > 0){
+          inbox.push(submission[0])
+        }
+      }
+
+      if (inbox.length > 0) {
+        commit('SET_INBOX', inbox)
+      }
     }
   }
 })
