@@ -76,7 +76,10 @@ actor Curator {
     return curator.pending;
   };
 
-  public shared(msg) func reviewSubmission(submissionId: SubmissionId, content: Text, playlistId: ?PlaylistId) : async ?Review {
+  // FIXME: the `playlistId` should be of type `?PlaylistId`.
+  // However, we currently do not know how to send an "opt Nat" argument from the frontend, so we use the value
+  // zero to represent a null value.
+  public shared(msg) func reviewSubmission(submissionId: SubmissionId, content: Text, playlistId: PlaylistId) : async ?Review {
     let curator = curators.get(msg.caller);
     let remainingPendingSubmissions = Array.filter<SubmissionId>(curator.pending, func x { x != submissionId });
     var review: ?Review = null;
@@ -88,7 +91,9 @@ actor Curator {
         pending = remainingPendingSubmissions;
       };
       curators.update(update);
-      review := await reviews.create(content, submissionId, playlistId);
+      // TODO: find out how to send an "opt Nat" argument from the frontend
+      let sanitizedPlailistId : ?PlaylistId = if (playlistId == 0) { null } else { ?playlistId };
+      review := await reviews.create(content, submissionId, sanitizedPlailistId);
     };
 
     return review;
