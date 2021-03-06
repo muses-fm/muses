@@ -39,5 +39,8 @@ jobs:
         run: |
           mkdir -p "$DFX_IDENTITY_DIR"
           echo "$DFX_IDENTITY" > "$DFX_IDENTITY_DIR/identity.pem"
+      - name: Provision canister ids file
+        run: |
+          cp canister_ids.testnet.json canister_ids.json
       - name: Deploy to testnet
         run: dfx deploy --network=ic
