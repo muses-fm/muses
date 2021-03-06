@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import config from '../config.js'
+import { normalizeTrackData, generateRandomString, normalizePlaylistData } from '../utils'
+import SpotifyService from '../services/SpotifyService'
+import { statuses } from '../config.js'
 import stubs from '../stubs.js'
 
 let artist;
@@ -21,14 +23,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    status: config.statuses.UNINITIALIZED,
+    status: statuses.UNINITIALIZED,
     loading: {
       enabled: false,
       text: ''
     },
     trackSubmissions: [],
     playlistSubmissions: [],
-    inbox: []
+    inbox: [],
+    api: {
+      hasSpotifyAccessToken: null,
+      spotifyStateRandomString: generateRandomString(16)
+    },
   },
   getters: {},
   mutations: {
@@ -63,24 +69,38 @@ export default new Vuex.Store({
     },
     REVIEW(state, review) {
       state.inbox = state.inbox.filter(submission => submission.id.toString() !== review.submissionId.toString())
+    },
+    TOGGLE_SPOTIFY_ACCESS_TOKEN_FLAG (state, toggle) {
+      state.api.hasSpotifyAccessToken = toggle
     }
   },
   actions: {
     async initializeAppWithDataFromIC({ dispatch, commit }) {
-      commit('SET_STATUS', config.statuses.INITIALIZING)
-
+      commit('SET_STATUS', statuses.INITIALIZING)
       const submissions = online ? await artist.getSubmissions() : stubs.submissions
       if (submissions.length > 0) {
-        commit('SET_TRACK_SUBMISSIONS', submissions)
-      }
+        const tracks = []
+        submissions.forEach(async (submission) => {
+          const spotifyTrack = await SpotifyService.getTrack(submission.spotifyTrackId);
+          tracks.push(normalizeTrackData(submission, spotifyTrack))
+        });
 
+        commit('SET_TRACK_SUBMISSIONS', tracks)
+      }
       const playlistSubmissions = online ? await curator.getPlaylists() : stubs.playlists
       if (playlistSubmissions.length > 0) {
-        commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
+        const playlists = []
+        playlistSubmissions.forEach(async (playlistSubmission) => {
+          const spotifyPlaylist = await SpotifyService.getPlaylist(playlistSubmission.spotifyPlaylistId);
+          playlists.push(normalizePlaylistData(playlistSubmission, spotifyPlaylist))
+        })
+
+        commit('SET_PLAYLIST_SUBMISSIONS', playlists)
       }
 
       await dispatch('getPendingSubmissions')
-      commit('SET_STATUS', config.statuses.INITIALIZED)
+
+      commit('SET_STATUS', statuses.INITIALIZED)
     },
     async submitTrack({ dispatch, commit }, trackId) {
       commit('TOGGLE_LOADER_ON', 'Storing track...')
@@ -94,11 +114,12 @@ export default new Vuex.Store({
         stubs.submissions.push(submission)
       }
 
-      dispatch('getPendingSubmissions')
-      commit('SUBMIT_TRACK', submission)
+      const spotifyTrack = await SpotifyService.getTrack(submission.spotifyTrackId);
+      commit('SUBMIT_TRACK', normalizeTrackData(submission, spotifyTrack))
+
+      await dispatch('getPendingSubmissions')
 
       commit('TOGGLE_LOADER_OFF')
-      return submission
     },
     async submitPlaylist({ commit }, playlistId) {
       commit('TOGGLE_LOADER_ON', 'Storing playlist...')
@@ -116,11 +137,11 @@ export default new Vuex.Store({
 
       // TODO: Find out why returned value is an array with 1 element
       if (playlist && playlist.length > 0){
-        commit('SUBMIT_PLAYLIST', playlist[0])
+        const spotifyPlaylist = await SpotifyService.getPlaylist(playlist[0].spotifyPlaylistId);
+        commit('SUBMIT_PLAYLIST', normalizePlaylistData(playlist[0], spotifyPlaylist))
       }
 
       commit('TOGGLE_LOADER_OFF')
-      return playlist[0]
     },
     async getPendingSubmissions({ commit }) {
       const submissionIds = online ? await curator.getPendingSubmissions() : stubs.submissions
@@ -129,7 +150,8 @@ export default new Vuex.Store({
         const submission = online ? await artist.getSubmission(submissionIds[i]) : [stubs.submissions[i]]
         // TODO: Find out why returned value is an array with 1 element
         if (submission && submission.length > 0){
-          inbox.push(submission[0])
+          const spotifyTrack = await SpotifyService.getTrack(submission[0].spotifyTrackId);
+          inbox.push(normalizeTrackData(submission[0], spotifyTrack))
         }
       }
       if (inbox.length > 0) {
@@ -146,6 +168,9 @@ export default new Vuex.Store({
       }
 
       commit('TOGGLE_LOADER_OFF')
+    },
+    toggleSpotifyAccessTokenFlag ({ commit }, toggle) {
+      commit('TOGGLE_SPOTIFY_ACCESS_TOKEN_FLAG', toggle)
     }
   }
 })

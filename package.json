@@ -27,6 +27,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "vue": "^2.6.12",
     "vue-router": "^3.4.9",
     "vuetify": "^2.3.19",

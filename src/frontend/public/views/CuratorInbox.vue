@@ -14,16 +14,18 @@
                     Your inbox is empty.
                   </v-list-item>
                   <template v-else v-for="(submission, index) in inbox">
-                    <v-list-item :key="`${submission.id}`">
-                      <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
+                    <v-list-item :key="`${submission.spotifyTrackId}`">
+                      <v-list-item-avatar>
+                        <v-img :src="submission.image"></v-img>
+                      </v-list-item-avatar>
                       <v-list-item-content>
-                        <v-list-item-title>Resonate track submission ID: {{ submission.id }}</v-list-item-title>
+                        <v-list-item-title>{{ submission.title }}</v-list-item-title>
                         <v-list-item-subtitle class="text--primary">
-                          Spotify track ID: {{ submission.spotifyTrackId }}
+                          {{ submission.artist }}
                         </v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-divider v-if="index < inbox.length - 1" :key="`divider-${submission.id}`" inset />
+                    <v-divider v-if="index < inbox.length - 1" :key="`divider-${submission.spotifyTrackId}`" inset />
                   </template>
                 </v-list-item-group>
               </v-list>
@@ -56,7 +58,7 @@
               <v-col>
                 <v-select
                   :items="playlistSubmissions"
-                  item-text="spotifyPlaylistId"
+                  item-text="title"
                   item-value="id"
                   label="Add to playlist"
                   v-model="addToPlaylist"
@@ -92,7 +94,7 @@
 <script>
 import { mapState } from 'vuex'
 import { constructSpotifyTrackEmbedUrl } from '../utils'
-import config from '../config.js'
+import { statuses } from '../config.js'
 
 export default {
   data: () => {
@@ -112,7 +114,7 @@ export default {
       'playlistSubmissions'
     ]),
     initializingStatus() {
-      return config.statuses.INITIALIZING;
+      return statuses.INITIALIZING;
     }
   },
   watch: {

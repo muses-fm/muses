@@ -14,14 +14,16 @@
                 </v-list-item>
                 <v-list-item-group v-else v-model="selected" active-class="pink--text">
                   <template v-for="(submission, index) in trackSubmissions">
-                    <v-list-item :key="`${submission.id}`">
-                      <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
+                    <v-list-item :key="`${submission.spotifyTrackId}`">
+                      <v-list-item-avatar>
+                        <v-img :src="submission.image"></v-img>
+                      </v-list-item-avatar>
                       <v-list-item-content>
-                        <v-list-item-title>ID: {{ submission.id }}</v-list-item-title>
-                        <v-list-item-subtitle class="text--primary">{{ submission.spotifyTrackId }}</v-list-item-subtitle>
+                        <v-list-item-title>{{ submission.title }}</v-list-item-title>
+                        <v-list-item-subtitle>{{ submission.artist }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-divider v-if="index < trackSubmissions.length - 1" :key="`divider-${submission.id}`" inset />
+                    <v-divider v-if="index < trackSubmissions.length - 1" :key="`divider-${submission.spotifyTrackId}`" inset />
                   </template>
                 </v-list-item-group>
               </v-list>
@@ -36,7 +38,7 @@
 <script>
 import { mapState } from 'vuex'
 import { reconstructSpotifyTrackUrl } from '../utils'
-import config from '../config.js'
+import { statuses } from '../config.js'
 
 export default {
   data: () => {
@@ -50,7 +52,7 @@ export default {
       'status'
     ]),
     initializingStatus() {
-      return config.statuses.INITIALIZING;
+      return statuses.INITIALIZING;
     }
   },
   watch: {
