@@ -14,16 +14,16 @@
                     There are no qualified playlists yet.
                   </v-list-item>
                   <template v-else v-for="(submission, index) in playlistSubmissions">
-                    <v-list-item :key="`${submission.id}`">
-                      <v-list-item-avatar color="grey darken-1"></v-list-item-avatar>
+                    <v-list-item :key="`${submission.spotifyPlaylistId}`">
+                      <v-list-item-avatar>
+                        <v-img :src="submission.image"></v-img>
+                      </v-list-item-avatar>
                       <v-list-item-content>
-                        <v-list-item-title>Resonate ID: {{ submission.id }}</v-list-item-title>
-                        <v-list-item-subtitle class="text--primary">
-                          Spotify ID: {{ submission.spotifyPlaylistId }}
-                        </v-list-item-subtitle>
+                        <v-list-item-title>{{ submission.title }}</v-list-item-title>
+                        <v-list-item-subtitle>{{ submission.owner.name }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
-                    <v-divider v-if="index < playlistSubmissions.length - 1" :key="`divider-${submission.id}`" inset />
+                    <v-divider v-if="index < playlistSubmissions.length - 1" :key="`divider-${submission.spotifyPlaylistId}`" inset />
                   </template>
                 </v-list-item-group>
               </v-list>
@@ -38,7 +38,7 @@
 <script>
 import { mapState } from 'vuex'
 import { reconstructSpotifyPlaylistUrl } from '../utils'
-import config from '../config.js'
+import { statuses } from '../config.js'
 
 export default {
   data: () => {
@@ -52,7 +52,7 @@ export default {
       'status'
     ]),
     initializingStatus() {
-      return config.statuses.INITIALIZING;
+      return statuses.INITIALIZING;
     }
   },
   watch: {

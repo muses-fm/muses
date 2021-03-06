@@ -48,10 +48,9 @@ export default {
     }
   },
   methods: {
-    submit() {
-      this.$store.dispatch('submitPlaylist', this.playlistId).then(submission => {
-        this.$router.push({ name: 'Curator Playlists' })
-      })
+    async submit() {
+      await this.$store.dispatch('submitPlaylist', this.playlistId)
+      this.$router.push({ name: 'Curator Playlists' })
     }
   }
 }

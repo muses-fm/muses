@@ -39,7 +39,7 @@ function generateWebpackConfigForCanister(name, info, env) {
   return {
     mode: env.development ? "development" : "production",
     devServer: {
-      contentBase: './dist/frontend',
+      contentBase: './dist/frontend'
     },
     entry: {
       index: path.join(__dirname, info.frontend.entrypoint),
