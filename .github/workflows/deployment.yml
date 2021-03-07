@@ -40,7 +40,8 @@ jobs:
           mkdir -p "$DFX_IDENTITY_DIR"
           echo "$DFX_IDENTITY" > "$DFX_IDENTITY_DIR/identity.pem"
       - name: Provision canister ids file
-        run: |
-          cp canister_ids.testnet.json canister_ids.json
+        run: cp canister_ids.testnet.json canister_ids.json
+      - name: Ensure wallet canister exists
+        run: dfx identity --network=ic get-wallet
       - name: Deploy to testnet
         run: dfx deploy --network=ic
