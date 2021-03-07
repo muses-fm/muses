@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import config from '../config.js'
+import stubs from '../stubs.js'
 
 let artist;
 let curator;
@@ -68,12 +69,12 @@ export default new Vuex.Store({
     async initializeAppWithDataFromIC({ dispatch, commit }) {
       commit('SET_STATUS', config.statuses.INITIALIZING)
 
-      const submissions = online ? await artist.getSubmissions() : [{id: 'test submission'}]
+      const submissions = online ? await artist.getSubmissions() : stubs.submissions
       if (submissions.length > 0) {
         commit('SET_TRACK_SUBMISSIONS', submissions)
       }
 
-      const playlistSubmissions = online ? await curator.getPlaylists() : [{id: 'test playlist'}]
+      const playlistSubmissions = online ? await curator.getPlaylists() : stubs.playlists
       if (playlistSubmissions.length > 0) {
         commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
       }
@@ -84,7 +85,15 @@ export default new Vuex.Store({
     async submitTrack({ dispatch, commit }, trackId) {
       commit('TOGGLE_LOADER_ON', 'Storing track...')
 
-      const submission = online ? await artist.submitTrack(trackId) : [{id: '1', spotifyTrackId: 'test'}]
+      let submission
+      if (online) {
+        submission = await artist.submitTrack(trackId);
+      } else {
+        const id = `${stubs.submissions.length + 1}`
+        submission = {id: id, spotifyTrackId: trackId};
+        stubs.submissions.push(submission)
+      }
+
       dispatch('getPendingSubmissions')
       commit('SUBMIT_TRACK', submission)
 
@@ -94,20 +103,30 @@ export default new Vuex.Store({
     async submitPlaylist({ commit }, playlistId) {
       commit('TOGGLE_LOADER_ON', 'Storing playlist...')
 
-      const submission = online ? await curator.qualifyPlaylist(playlistId) : [{id: '1', spotifyPlaylistId: 'test'}]
+      let playlist
+      if (online) {
+        playlist = await curator.qualifyPlaylist(playlistId)
+      } else {
+        const id = `${stubs.playlists.length + 1}`
+        playlist = {id: id, spotifyPlaylistId: playlistId};
+        stubs.playlists.push(playlist)
+        // XXX: simulate `curator.qualifyPlaylist` return value
+        playlist = [playlist]
+      }
+
       // TODO: Find out why returned value is an array with 1 element
-      if (submission && submission.length > 0){
-        commit('SUBMIT_PLAYLIST', submission[0])
+      if (playlist && playlist.length > 0){
+        commit('SUBMIT_PLAYLIST', playlist[0])
       }
 
       commit('TOGGLE_LOADER_OFF')
-      return submission[0]
+      return playlist[0]
     },
     async getPendingSubmissions({ commit }) {
-      const submissionIds = online ? await curator.getPendingSubmissions() : [{id: 'id1'}, {id: 'id2'}]
+      const submissionIds = online ? await curator.getPendingSubmissions() : stubs.submissions
       const inbox = []
       for (let i = 0; i < submissionIds.length; i++) {
-        const submission = online ? await artist.getSubmission(submissionIds[i]) : {id: 'id1', spotifyTrackId: 'lalala'}
+        const submission = online ? await artist.getSubmission(submissionIds[i]) : [stubs.submissions[i]]
         // TODO: Find out why returned value is an array with 1 element
         if (submission && submission.length > 0){
           inbox.push(submission[0])
