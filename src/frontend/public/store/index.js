@@ -6,18 +6,10 @@ import SpotifyService from '../services/SpotifyService'
 import { statuses } from '../config.js'
 import stubs from '../stubs.js'
 
-let artist;
-let curator;
-let online;
+import artist from 'ic:canisters/artist'   // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
+import curator from 'ic:canisters/curator' // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
 
-try {
-  artist = require('ic:canisters/artist')
-  curator = require('ic:canisters/curator')
-  online = true
-} catch (error) {
-  online = false
-  console.warn('RUNNING IN OFFLINE MODE')
-}
+const online = process.env.NODE_ENV === 'production';
 
 Vue.use(Vuex)
 
