@@ -43,7 +43,8 @@ jobs:
           mkdir -p "$DFX_IDENTITY_DIR"
           echo "$DFX_IDENTITY" > "$DFX_IDENTITY_DIR/identity.pem"
       - name: Provision stable canister ids file
-        if: github.event.push.base.ref == 'devel'
+        # FIXME: don't provision files on pull request only
+        # if: github.event.push.base.ref == 'devel'
         run: cp canister_ids.testnet.json canister_ids.json
       # TODO: re-enable when upgrading to 0.6.24
       # - name: Ensure wallet canister exists
