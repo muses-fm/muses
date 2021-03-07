@@ -108,8 +108,6 @@ For faster development cycles, you may want to work with a local dev server, dis
 yarn start
 ```
 
-> **NOTE:** You will need to comment out code that imports or uses canisters and manually mock responses to make the above command work.
-
 And navigate to [`http://localhost:8080`](http://localhost:8080) to see your changes applied via hot reload.
 
 ## More
