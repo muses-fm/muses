@@ -1,9 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import artist from 'ic:canisters/artist';  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-import curator from 'ic:canisters/curator';  // TO COMMENT OUT WHEN RUNNING DEV SERVER
 import config from '../config.js'
+
+let artist;
+let curator;
+let online;
+
+try {
+  artist = require('ic:canisters/artist')
+  curator = require('ic:canisters/curator')
+  online = true
+} catch (error) {
+  online = false
+  console.warn('RUNNING IN OFFLINE MODE')
+}
 
 Vue.use(Vuex)
 
@@ -57,27 +68,23 @@ export default new Vuex.Store({
     async initializeAppWithDataFromIC({ dispatch, commit }) {
       commit('SET_STATUS', config.statuses.INITIALIZING)
 
-      const submissions = await artist.getSubmissions()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const submissions = [{id: 'test submission'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      const submissions = online ? await artist.getSubmissions() : [{id: 'test submission'}]
       if (submissions.length > 0) {
         commit('SET_TRACK_SUBMISSIONS', submissions)
       }
 
-      const playlistSubmissions = await curator.getPlaylists()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const playlistSubmissions = [{id: 'test playlist'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      const playlistSubmissions = online ? await curator.getPlaylists() : [{id: 'test playlist'}]
       if (playlistSubmissions.length > 0) {
         commit('SET_PLAYLIST_SUBMISSIONS', playlistSubmissions)
       }
 
       await dispatch('getPendingSubmissions')
-
       commit('SET_STATUS', config.statuses.INITIALIZED)
     },
     async submitTrack({ dispatch, commit }, trackId) {
       commit('TOGGLE_LOADER_ON', 'Storing track...')
 
-      const submission = await artist.submitTrack(trackId)  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const submission = [{id: '1', spotifyTrackId: 'test'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      const submission = online ? await artist.submitTrack(trackId) : [{id: '1', spotifyTrackId: 'test'}]
       dispatch('getPendingSubmissions')
       commit('SUBMIT_TRACK', submission)
 
@@ -87,8 +94,7 @@ export default new Vuex.Store({
     async submitPlaylist({ commit }, playlistId) {
       commit('TOGGLE_LOADER_ON', 'Storing playlist...')
 
-      const submission = await curator.qualifyPlaylist(playlistId)  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const submission = [{id: '1', spotifyPlaylistId: 'test'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      const submission = online ? await curator.qualifyPlaylist(playlistId) : [{id: '1', spotifyPlaylistId: 'test'}]
       // TODO: Find out why returned value is an array with 1 element
       if (submission && submission.length > 0){
         commit('SUBMIT_PLAYLIST', submission[0])
@@ -98,12 +104,10 @@ export default new Vuex.Store({
       return submission[0]
     },
     async getPendingSubmissions({ commit }) {
-      const submissionIds = await curator.getPendingSubmissions()  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // const submissionIds = [{id: 'id1'}, {id: 'id2'}]  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+      const submissionIds = online ? await curator.getPendingSubmissions() : [{id: 'id1'}, {id: 'id2'}]
       const inbox = []
       for (let i = 0; i < submissionIds.length; i++) {
-        const submission = await artist.getSubmission(submissionIds[i]);  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-        // const submission = {id: 'id1', spotifyTrackId: 'lalala'}  // TO UNCOMMENT WHEN RUNNING DEV SERVER
+        const submission = online ? await artist.getSubmission(submissionIds[i]) : {id: 'id1', spotifyTrackId: 'lalala'}
         // TODO: Find out why returned value is an array with 1 element
         if (submission && submission.length > 0){
           inbox.push(submission[0])
@@ -116,9 +120,11 @@ export default new Vuex.Store({
     async review({ commit }, { submissionId, feedback, playlistId }) {
       commit('TOGGLE_LOADER_ON', 'Submitting review...')
 
-      const review = await curator.reviewSubmission(submissionId, feedback, playlistId)  // TO COMMENT OUT WHEN RUNNING DEV SERVER
-      // TODO: Find out why returned value is an array with 1 element
-      commit('REVIEW', review[0])
+      if (online) {
+        const review = await curator.reviewSubmission(submissionId, feedback, playlistId)
+        // TODO: Find out why returned value is an array with 1 element
+        commit('REVIEW', review[0])
+      }
 
       commit('TOGGLE_LOADER_OFF')
     }
