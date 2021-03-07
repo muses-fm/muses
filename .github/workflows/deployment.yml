@@ -41,7 +41,8 @@ jobs:
           echo "$DFX_IDENTITY" > "$DFX_IDENTITY_DIR/identity.pem"
       - name: Provision canister ids file
         run: cp canister_ids.testnet.json canister_ids.json
-      - name: Ensure wallet canister exists
-        run: dfx identity --network=ic get-wallet
+      # TODO: re-enable when upgrading to 0.6.24
+      # - name: Ensure wallet canister exists
+      #   run: dfx identity --network=ic get-wallet
       - name: Deploy to testnet
         run: dfx deploy --network=ic
