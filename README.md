@@ -1,6 +1,6 @@
 # res(o)nate
 
-res(o)nate is a decentralized music curation platform that allows artists to distribute new releases to playlist curators without intermediaries. Try the [demo](http://ryaba-2iaaa-aaaab-aac2a-cai.ic0.app/) on DFINITY testnet.
+res(o)nate is a decentralized music curation platform that allows artists to distribute new releases to playlist curators without intermediaries. Try the [demo](http://ryaba-2iaaa-aaaab-aac2a-cai.ic0.app/) on DFINITY testnet or check our [branding board](https://miro.com/app/board/o9J_lKsnqSQ=/) for more information.
 
 ## Development
 
