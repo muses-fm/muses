@@ -12,7 +12,7 @@ To get started, you might want to explore the project directory structure and in
 Make sure to install the right version of the DFINITY SDK with:
 
 ```sh
-DFX_VERSION=0.6.21 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
+DFX_VERSION=0.6.26 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
 ```
 
 Clone this repo:
