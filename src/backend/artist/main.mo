@@ -12,7 +12,6 @@ actor Artist {
   type ArtistProfileId = Types.ArtistProfileId;
   type Submission = Types.Submission;
   type SubmissionId = Types.SubmissionId;
-  type Review = Curator.Review;
 
   stable var artistStore : [(ArtistProfileId, ArtistProfile)] = [];
   let artists : Databases.ArtistDB = Databases.ArtistDB(artistStore);
@@ -45,7 +44,7 @@ actor Artist {
     submissions.find(id);
   };
 
-  public shared(msg) func getAllReviews() : async [Review] {
+  public shared(msg) func getAllReviews() : async [Curator.Review] {
     let artist = artists.get(msg.caller);
     return await Curator.getReviewsBySubmissions(artist.submissions);
   };

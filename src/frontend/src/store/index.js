@@ -6,12 +6,17 @@ import SpotifyService from '../services/SpotifyService'
 import { statuses } from '../config.js'
 import stubs from '../stubs.js'
 
-import artist from 'ic:canisters/artist'   // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
-import curator from 'ic:canisters/curator' // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
+import { Actor, HttpAgent } from '@dfinity/agent'; // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
+import { idlFactory as artist_idl, canisterId as artist_id } from 'dfx-generated/artist'; // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
+import { idlFactory as curator_idl, canisterId as curator_id } from 'dfx-generated/curator'; // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
 
 const online = process.env.NODE_ENV === 'production';
 
 Vue.use(Vuex)
+
+const agent = new HttpAgent(); // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
+const artist = Actor.createActor(artist_idl, { agent, canisterId: artist_id }); // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
+const curator = Actor.createActor(curator_idl, { agent, canisterId: curator_id }); // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
 
 export default new Vuex.Store({
   state: {

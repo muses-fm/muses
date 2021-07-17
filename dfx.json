@@ -14,7 +14,7 @@
         "curator"
       ],
       "frontend": {
-        "entrypoint": "src/frontend/public/index.js",
+        "entrypoint": "src/frontend/src/index.html",
         "output": "dist/frontend"
       },
       "source": [
@@ -29,14 +29,8 @@
       "packtool": ""
     }
   },
-  "dfx": "0.6.26",
+  "dfx": "0.7.2",
   "networks": {
-    "ic": {
-      "providers": [
-        "https://gw.dfinity.network"
-      ],
-      "type": "persistent"
-    },
     "local": {
       "bind": "127.0.0.1:8000",
       "type": "ephemeral"
