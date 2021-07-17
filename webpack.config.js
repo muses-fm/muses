@@ -1,11 +1,12 @@
 const path = require("path");
-const { VueLoaderPlugin } = require("vue-loader");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const dfxJson = require("./dfx.json");
+const { VueLoaderPlugin } = require("vue-loader");
 
 // List of all aliases for canisters. This creates the module alias for
-// the `import ... from "ic:canisters/xyz"` where xyz is the name of a
+// the `import ... from "@dfinity/ic/:canisters/xyz"` where xyz is the name of a
 // canister.
 const aliases = Object.entries(dfxJson.canisters).reduce(
   (acc, [name, _value]) => {
@@ -21,8 +22,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
 
     return {
       ...acc,
-      ["ic:canisters/" + name]: path.join(outputRoot, name + ".js"),
-      ["ic:idl/" + name]: path.join(outputRoot, name + ".did.js"),
+      ["dfx-generated/" + name]: path.join(outputRoot, name + ".js"),
     };
   },
   {}
@@ -42,9 +42,11 @@ function generateWebpackConfigForCanister(name, info, env) {
       contentBase: './dist/frontend'
     },
     entry: {
-      index: path.join(__dirname, info.frontend.entrypoint),
+      // The frontend.entrypoint points to the HTML file for this build, so we need
+      // to replace the extension to `.js`.
+      index: path.join(__dirname, info.frontend.entrypoint).replace(/\.html$/, ".js"),
     },
-    devtool: env.development ? "source-map" : "",
+    devtool: env.development ? "inline-source-map" : false,
     optimization: {
       minimize: true,
       minimizer: [new TerserPlugin()],
@@ -54,7 +56,14 @@ function generateWebpackConfigForCanister(name, info, env) {
         ...aliases,
         'vue$': 'vue/dist/vue.runtime.esm.js'
       },
-      extensions: ["*", ".js", ".vue", ".json"],
+      extensions: [".js", ".ts", ".jsx", ".tsx", ".vue", ".json"],
+      fallback: {
+        "assert": require.resolve("assert/"),
+        "buffer": require.resolve("buffer/"),
+        "events": require.resolve("events/"),
+        "stream": require.resolve("stream-browserify/"),
+        "util": require.resolve("util/"),
+      },
     },
     output: {
       filename: "[name].js",
@@ -92,7 +101,13 @@ function generateWebpackConfigForCanister(name, info, env) {
     plugins: [
       new VueLoaderPlugin(),
       new HtmlWebpackPlugin({
-        template: 'src/frontend/public/index.html'
+        template: path.join(__dirname, info.frontend.entrypoint),
+        filename: 'index.html',
+        chunks: ['index'],
+      }),
+      new webpack.ProvidePlugin({
+        Buffer: [require.resolve('buffer/'), 'Buffer'],
+        process: require.resolve('process/browser'),
       }),
     ],
   };

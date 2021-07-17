@@ -12,7 +12,7 @@ To get started, you might want to explore the project directory structure and in
 Make sure to install the right version of the DFINITY SDK with:
 
 ```sh
-DFX_VERSION=0.6.26 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
+DFX_VERSION=0.7.2 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
 ```
 
 Clone this repo:
@@ -44,15 +44,15 @@ dfx deploy
 This command, if successful, will display IDs of your deployed canisters:
 
 ```
-Installing code for canister artist, with canister_id rwlgt-iiaaa-aaaaa-aaaaa-cai
-Installing code for canister curator, with canister_id rrkah-fqaaa-aaaaa-aaaaq-cai
-Installing code for canister frontend, with canister_id ryjl3-tyaaa-aaaaa-aaaba-cai
+Installing code for canister artist, with canister_id rrkah-fqaaa-aaaaa-aaaaq-cai
+Installing code for canister curator, with canister_id ryjl3-tyaaa-aaaaa-aaaba-cai
+Installing code for canister frontend, with canister_id r7inp-6aaaa-aaaaa-aaabq-cai
 ```
 
 Spot the `frontend` canister and use its ID to access the user interface:
 
 ```
-http://localhost:8000/?canisterId=ryjl3-tyaaa-aaaaa-aaaba-cai
+http://localhost:8000/?canisterId=r7inp-6aaaa-aaaaa-aaabq-cai
 ```
 
 You can now also interact with your canisters' `actor`s directly from the terminal with:
@@ -132,7 +132,7 @@ If nothing helps and you are stuck, these are places you can go ask for guidance
 ### Replica error (code 3): IC0301
 
 ```
-Replica error (code 3): IC0301: Canister ic:ryjl3-tyaaa-aaaaa-aaaba-cai not found.
+Replica error (code 3): IC0301: Canister ic:r7inp-6aaaa-aaaaa-aaabq-cai not found.
 ```
 
 Start the DFX network with:
