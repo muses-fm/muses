@@ -3,13 +3,16 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-4" class="pa-4">
         <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
-        <div>curator@resonate.com</div>
+        <div class="grey--text">curator@resonate.com</div>
       </v-sheet>
 
       <v-divider />
 
       <v-list>
         <v-list-item v-for="{icon, title, to} in links" :key="icon" :to="to">
+          <v-list-item-icon>
+            <v-icon v-text="icon"></v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ title }}</v-list-item-title>
           </v-list-item-content>
@@ -17,12 +20,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer">MENU</v-app-bar-nav-icon>
-      <v-toolbar-title></v-toolbar-title>
-      <v-spacer/>
-      <router-link :to="{name: 'Artist'}">Switch to Artist view</router-link>
-    </v-app-bar>
+    <NavigationBar view="artist" :onDrawerToggleClick="() => {drawer = !drawer}" />
 
     <router-view v-if="!loading.enabled"></router-view>
     <v-overlay v-else :value="loading.enabled" class="text-center">
@@ -35,14 +33,19 @@
 <script>
 import { mapState } from 'vuex'
 
+import NavigationBar from '../components/NavigationBar.vue'
+
 export default {
+  components: {
+    NavigationBar
+  },
   data: () => {
     return {
       drawer: null,
       links: [
-        { title: 'My playlists', to: { name: 'Curator Playlists' }, icon: 'list' },
-        { title: 'Submit playlist', to: { name: 'Curator Submit Playlist' }, icon: 'publish' },
-        { title: 'My Inbox', to: { name: 'Curator Inbox' }, icon: 'inbox' }
+        { title: 'My playlists', to: { name: 'Curator Playlists' }, icon: 'mdi-playlist-music-outline' },
+        { title: 'Submit playlist', to: { name: 'Curator Submit Playlist' }, icon: 'mdi-publish' },
+        { title: 'My Inbox', to: { name: 'Curator Inbox' }, icon: 'mdi-inbox' }
       ]
     }
   },

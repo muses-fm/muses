@@ -1,4 +1,4 @@
-// import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@mdi/font/css/materialdesignicons.css'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -15,9 +15,9 @@ new Vue({
   router,
   store,
   vuetify: new Vuetify({
-    // icons: {
-    //   iconfont: 'material-icons',
-    // }
+    icons: {
+      iconfont: 'mdi',
+    }
   }),
   render: h => h(App),
 }).$mount('#app')
