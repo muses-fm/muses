@@ -15,6 +15,8 @@ const online = process.env.NODE_ENV === 'production';
 Vue.use(Vuex)
 
 const agent = new HttpAgent(); // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
+// See https://forum.dfinity.org/t/fail-to-verify-certificate-in-development-update-calls/4078
+agent.fetchRootKey() // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
 const artist = Actor.createActor(artist_idl, { agent, canisterId: artist_id }); // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
 const curator = Actor.createActor(curator_idl, { agent, canisterId: curator_id }); // COMMENT THIS LINE TO RUN LOCAL DEV SERVER
 
