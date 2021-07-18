@@ -22,49 +22,33 @@ git clone git@github.com:OmeGak/resonate.git
 cd resonate
 ```
 
-Once cloned, make sure you have the right version of `node` installed with `nvm`:
+Once cloned, make sure to have the right version of `node` installed with `nvm`:
 
 ```sh
 nvm use
 ```
 
-Start a local DFNITY replica for development:
+## Local deployment
+
+Start a local DFNITY network (leave it running):
 
 ```sh
 dfx start
 ```
 
-And deploy the project canisters to the local network:
+And deploy the project canisters:
 
 ```sh
 yarn install
 dfx deploy
 ```
 
-This command, if successful, will display IDs of your deployed canisters:
+This command, if successful, will display the IDs of your deployed canisters:
 
 ```
 Installing code for canister artist, with canister_id rrkah-fqaaa-aaaaa-aaaaq-cai
 Installing code for canister curator, with canister_id ryjl3-tyaaa-aaaaa-aaaba-cai
 Installing code for canister frontend, with canister_id r7inp-6aaaa-aaaaa-aaabq-cai
-```
-
-Spot the `frontend` canister and use its ID to access the user interface:
-
-```
-http://localhost:8000/?canisterId=r7inp-6aaaa-aaaaa-aaabq-cai
-```
-
-You can now also interact with your canisters' `actor`s directly from the terminal with:
-
-```sh
-dfx canister call <canister_name> <function> [<argument>]
-```
-
-If you want to have some dummy data for testing, apply local fixtures:
-
-```sh
-make fixtures
 ```
 
 If at any point you want to start from scratch, run:
@@ -75,7 +59,33 @@ make clean
 
 > **NOTE:** Working with this project in your development environment will not affect any production deployment or identity tokens.
 
-### Backend
+### App usage
+
+Start a local DFNITY network if it's not already running:
+
+```sh
+dfx start
+```
+
+Start a local redirect server, necessary to obtain OAuth tokens from Spotify (leave it running):
+
+```sh
+yarn start:redirect
+```
+
+Spot the `frontend` canister in the output from `dfx deploy` and use its ID to access the app:
+
+```
+http://localhost:8000/?canisterId=r7inp-6aaaa-aaaaa-aaabq-cai
+```
+
+If you want to have some dummy data for testing, apply the fixtures:
+
+```sh
+make fixtures
+```
+
+### Backend development
 
 While developing, you can re-deploy the changes in your canister with:
 
@@ -83,9 +93,19 @@ While developing, you can re-deploy the changes in your canister with:
 dfx deploy <canister_alias>
 ```
 
-Or use `dfx deploy` to re-deploy all canisters.
+To re-deploy all canisters, run instead:
 
-### Frontend
+```sh
+dfx deploy
+```
+
+You can interact with the canisters' `actor`s directly from the terminal with:
+
+```sh
+dfx canister call <canister_name> <function> [<argument>]
+```
+
+### Frontend development
 
 While developing, you can re-deploy your changes while preserving canister state with:
 

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack serve --env=development",
+    "start:redirect": "node bin/redirect-server.js",
     "redeploy:frontend": "dfx build frontend && dfx canister install frontend --mode upgrade"
   },
   "devDependencies": {
@@ -19,6 +20,7 @@
     "events": "^3.3.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "5.3.1",
+    "http": "^0.0.1-security",
     "material-design-icons-iconfont": "^6.1.0",
     "process": "^0.11.10",
     "sass": "^1.29.0",
