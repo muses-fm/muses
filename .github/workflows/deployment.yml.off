@@ -1,3 +1,7 @@
+# XXX: Disabled, since there is no longer a testnet available.
+#      Keeping the workflow in the repo, as it may be useful for automated deployments in mainnet in the future.
+#      More info: https://github.com/OmeGak/resonate/issues/101#issuecomment-882109725
+
 name: deployment
 
 on:
@@ -7,7 +11,6 @@ on:
   pull_request:
     branches:
       - devel
-
 
 env:
   DFX_IDENTITY: ${{ secrets.DFX_IDENTITY }}
