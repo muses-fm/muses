@@ -54,7 +54,7 @@ function normalizePlaylistData(submission, spotifyPlaylist) {
       name: spotifyPlaylist.data.owner.display_name,
       url: spotifyPlaylist.data.owner.external_urls.spotify
     },
-    id: submission.id
+    id: submission.id.toString()
   }
 }
 
