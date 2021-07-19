@@ -8,8 +8,8 @@ const FRONTEND_CANISTER_ID = 'r7inp-6aaaa-aaaaa-aaabq-cai';
 // removes the `canisterId=` parameter from the callback URL.
 const server = http.createServer((request, response) => {
   // Redirect to the frontend canister in the local DFINITY replica
-  response.writeHead(301, {
     'Location': `http://${dfxConfig.networks.local.bind}?canisterId=${FRONTEND_CANISTER_ID}`,
+  response.writeHead(307, {
   });
   response.end();
 })
