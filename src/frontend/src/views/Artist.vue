@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-4" class="pa-4">
         <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
-        <div class="grey--text">artist@resonate.com</div>
+        <div class="grey--text">artist@muses.fm</div>
       </v-sheet>
 
       <v-divider />

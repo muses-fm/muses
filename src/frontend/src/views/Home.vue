@@ -4,7 +4,7 @@
       <v-container class="mt-16">
         <v-row>
           <v-col class="text-center">
-            <h1 class="text-h1">Welcome to Resonate!</h1>
+            <h1 class="text-h1">Welcome to MUSES.FM!</h1>
             <div class="mt-16">
               <div v-if="isLoggedIn === false">
                 <v-btn x-large dark color="green" @click="loginToSpotify">

@@ -1,6 +1,8 @@
-# res(o)nate
+# MUSES.FM
 
-res(o)nate is a community-owned music curation platform that allows artists to distribute new releases to playlist curators without intermediaries. Check the [strategy document](doc/strategy.md) for more information. Join the [Telegram group](https://t.me/joinchat/DSuYKQSFcCg9Fb00) for development and community updates.
+> 👷 Currently in research, design & prototyping phase.
+
+MUSES.FM is a community-owned music curation platform built on [DFINITY](https://dfinity.org/). Check the [strategy document](doc/strategy.md) for more information. Join the [Telegram group](https://t.me/joinchat/DSuYKQSFcCg9Fb00) for development and community updates.
 
 ## Development
 
@@ -18,8 +20,8 @@ DFX_VERSION=0.7.2 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
 Clone this repo:
 
 ```sh
-git clone git@github.com:OmeGak/resonate.git
-cd resonate
+git clone git@github.com:muses-fm/muses.git
+cd muses
 ```
 
 Once cloned, make sure to have the right version of `node` installed with `nvm`:
@@ -132,7 +134,7 @@ And navigate to [`http://localhost:8080`](http://localhost:8080) to see your cha
 
 ## More
 
-To learn more before you start working with resonate, see the following documentation available online:
+To learn more before you start working with `muses`, see the following documentation available online:
 - [Quick Start](https://sdk.dfinity.org/docs/quickstart/quickstart.html)
 - [SDK Developer Tools](https://sdk.dfinity.org/docs/developers-guide/sdk-guide.html)
 - [Motoko Programming Language Guide](https://sdk.dfinity.org/docs/language-guide/motoko.html)
