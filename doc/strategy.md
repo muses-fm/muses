@@ -11,7 +11,7 @@
 - [What makes the brand and platform different?](#what-makes-the-brand-and-platform-different)
 - [What are the 5 key goals over the next five years?](#what-are-the-5-key-goals-over-the-next-five-years)
 - [What are the biggest fears in achieving these goals?](#what-are-the-biggest-fears-in-achieving-these-goals)
-- [Who are the competitors?](#who-are-the-competitors)
+- [Who are the competitor and related platforms?](#who-are-the-competitor-and-related-platforms)
 - [What are the users’ tangible benefits from the platform?](#what-are-the-users-tangible-benefits-from-the-platform)
   - [Artists](#artists)
   - [Curators](#curators)
@@ -108,21 +108,23 @@ UX:
 - Artists and curators don't engage with the network after they find each other.
 - The matching algorithm doesn't do good matching between tracks and playlists.
 
-## Who are the competitors?
+## Who are the competitor and related platforms?
 
-| Competitor        | URL                                        |
-| ----------------- | ------------------------------------------ |
-| PlaylistPush      | https://playlistpush.com/                  |
-| Matchfy           | https://www.matchfy.io/                    |
-| iGroove           | https://www.igroovemusic.com/              |
-| Submithub         | https://www.submithub.com/                 |
-| Groover           | https://groover.co/                        |
-| Analog collective | https://analogcollective.com/              |
-| Trackpromoters    | https://trackpromoters.com/                |
-| Daily playlists   | https://dailyplaylists.com/                |
-| Boost collective  | https://boostcollective.ca/spotify-feature |
-| Streaming famous  | https://streamingfamous.com/               |
-| Audius            | https://audius.co/                         |
+| Competitor        | URL                                        | Comments |
+| ----------------- | ------------------------------------------ | -------- |
+| PlaylistPush      | https://playlistpush.com/                  |          |
+| Matchfy           | https://www.matchfy.io/                    |          |
+| iGroove           | https://www.igroovemusic.com/              |          |
+| Submithub         | https://www.submithub.com/                 |          |
+| Groover           | https://groover.co/                        |          |
+| Analog collective | https://analogcollective.com/              |          |
+| Trackpromoters    | https://trackpromoters.com/                |          |
+| Daily playlists   | https://dailyplaylists.com/                |          |
+| Boost collective  | https://boostcollective.ca/spotify-feature |          |
+| Streaming famous  | https://streamingfamous.com/               |          |
+| Audius            | https://audius.co/                         |          |
+| Amuse             | https://www.amuse.io/                      |          |
+| Playlister.Club   | https://www.playlister.club/               |          |
 
 ## What are the users’ tangible benefits from the platform?
 
