@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "allowJs": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*"]
+}
