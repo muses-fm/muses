@@ -1,7 +1,5 @@
-import Container from "@mui/material/Container";
+import Dashboard from "../components/Dashboard";
 
-const Curator = () => {
-  return <Container maxWidth="sm">Curator</Container>;
-};
+const Curator = () => <Dashboard role="Curator">Curator</Dashboard>;
 
 export default Curator;

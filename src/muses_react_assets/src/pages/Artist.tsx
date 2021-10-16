@@ -1,7 +1,5 @@
-import Container from "@mui/material/Container";
+import Dashboard from "../components/Dashboard";
 
-const Artist = () => {
-  return <Container maxWidth="sm">Artist</Container>;
-};
+const Artist = () => <Dashboard role="Artist">Artist</Dashboard>;
 
 export default Artist;
