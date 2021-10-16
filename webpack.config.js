@@ -8,7 +8,11 @@ let localCanisters, prodCanisters, canisters;
 
 function initCanisterIds() {
   try {
-    localCanisters = require(path.resolve(".dfx", "local", "canister_ids.json"));
+    localCanisters = require(path.resolve(
+      ".dfx",
+      "local",
+      "canister_ids.json"
+    ));
   } catch (error) {
     console.log("No local canister_ids.json found. Continuing production");
   }
@@ -32,12 +36,7 @@ function initCanisterIds() {
 initCanisterIds();
 
 const isDevelopment = process.env.NODE_ENV !== "production";
-const asset_entry = path.join(
-  "src",
-  "muses_react_assets",
-  "src",
-  "index.html"
-);
+const asset_entry = path.join("src", "muses_react_assets", "src", "index.html");
 
 module.exports = {
   target: "web",
@@ -81,7 +80,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, asset_entry),
-      cache: false
+      cache: false,
     }),
     new CopyPlugin({
       patterns: [
@@ -92,8 +91,8 @@ module.exports = {
       ],
     }),
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      MUSES_REACT_CANISTER_ID: canisters["muses_react"]
+      NODE_ENV: "development",
+      MUSES_REACT_CANISTER_ID: canisters["muses_react"],
     }),
     new webpack.ProvidePlugin({
       Buffer: [require.resolve("buffer/"), "Buffer"],
@@ -113,6 +112,6 @@ module.exports = {
     },
     hot: true,
     contentBase: path.resolve(__dirname, "./src/muses_react_assets"),
-    watchContentBase: true
+    watchContentBase: true,
   },
 };

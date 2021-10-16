@@ -5,16 +5,11 @@
       "type": "motoko"
     },
     "muses_react_assets": {
-      "dependencies": [
-        "muses_react"
-      ],
+      "dependencies": ["muses_react"],
       "frontend": {
         "entrypoint": "src/muses_react_assets/src/index.html"
       },
-      "source": [
-        "src/muses_react_assets/assets",
-        "dist/muses_react_assets/"
-      ],
+      "source": ["src/muses_react_assets/assets", "dist/muses_react_assets/"],
       "type": "assets"
     }
   },
