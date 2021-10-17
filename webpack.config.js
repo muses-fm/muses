@@ -106,5 +106,6 @@ module.exports = {
     hot: true,
     contentBase: path.resolve(__dirname, "./src/muses_react_assets"),
     watchContentBase: true,
+    historyApiFallback: true,
   },
 };
