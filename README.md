@@ -2,7 +2,9 @@
 
 > 👷 Currently in research, design & prototyping phase.
 
-MUSES.FM is a community-owned music curation platform built on [DFINITY](https://dfinity.org/). Check the [strategy document](doc/strategy.md) for more information. Join the [Telegram group](https://t.me/joinchat/DSuYKQSFcCg9Fb00) for development and community updates.
+MUSES.FM is a community-owned music promotion platform centered around playlists and built on [DFINITY](https://dfinity.org/). Its purpose is to counter the extractive nature of the music promotion industry by establishing a circular economy between artists, playlist curators and playlist taggers.
+
+Check the [strategy document](doc/strategy.md) to know more about the vision. Check the [economics document](doc/economics.md) to know more about the circular economy. Join the [Telegram group](https://t.me/joinchat/DSuYKQSFcCg9Fb00) to follow development and community updates and getting engaged.
 
 ## Development
 
