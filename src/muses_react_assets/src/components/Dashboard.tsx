@@ -1,23 +1,28 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import HomeIcon from "@mui/icons-material/Home";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import HomeIcon from "@mui/icons-material/Home";
+import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { useState } from "react";
+
+import { styled } from "@mui/material/styles";
+
+import { stringAvatar } from "../utils";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -25,7 +30,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const drawerWidth: number = 240;
 
-const Dashboard = ({ role, children }) => {
+const Dashboard = ({ user, children }) => {
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -34,11 +39,7 @@ const Dashboard = ({ role, children }) => {
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar position="absolute" open={open}>
-        <Toolbar
-          sx={{
-            pr: "24px", // keep right padding when drawer closed
-          }}
-        >
+        <Toolbar sx={{ pr: "24px" }}>
           <IconButton
             edge="start"
             color="inherit"
@@ -52,19 +53,21 @@ const Dashboard = ({ role, children }) => {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            {role}'s dashboard
+            {user.name}'s dashboard
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <Toolbar
           sx={{
+            backgroundColor: (theme) => theme.palette.grey[100],
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
-            px: [1],
+            justifyContent: "space-between",
+            px: [2],
           }}
         >
+          <Avatar {...stringAvatar(`${user.name}`)} />
           <IconButton onClick={toggleDrawer}>
             <ChevronLeftIcon />
           </IconButton>
@@ -88,6 +91,7 @@ const Dashboard = ({ role, children }) => {
       <Box
         component="main"
         sx={{
+          backgroundColor: (theme) => theme.palette.grey[100],
           flexGrow: 1,
           height: "100vh",
           overflow: "auto",
