@@ -1,3 +1,5 @@
+import { spotify } from "./config";
+
 export const stringToColor = (string: string) => {
   let hash = 0;
   let i;
@@ -27,4 +29,21 @@ export const stringAvatar = (name: string) => {
     },
     children: words.length > 1 ? `${words[0][0]}${words[1][0]}` : `${words[0].substring(0, 2)}`,
   };
+};
+
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+export const isValidSpotifyTrackUrl = (spotifyTrackUrl: string) => {
+  const url = spotifyTrackUrl && isValidHttpUrl(spotifyTrackUrl) ? new URL(spotifyTrackUrl) : null;
+  return url && url.hostname == spotify.hostname && url.pathname.includes("/track/");
 };

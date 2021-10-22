@@ -6,16 +6,14 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-const Card = ({ title, children, buttons = [] }) => {
+const Card = ({ title, children, buttons = [], sx = {} }) => {
   return (
-    <MUICard>
+    <MUICard sx={sx}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {children}
-        </Typography>
+        {children}
       </CardContent>
       <CardActions>
         {buttons.map(({ label, path }) => (

@@ -51,7 +51,7 @@ const Dashboard = ({ user, links, children }) => {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            {user.name}'s dashboard
+            {user.name}
           </Typography>
         </Toolbar>
       </AppBar>
