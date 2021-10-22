@@ -15,8 +15,6 @@ import Typography from "@mui/material/Typography";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
@@ -30,7 +28,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const drawerWidth: number = 240;
 
-const Dashboard = ({ user, children }) => {
+const Dashboard = ({ user, links, children }) => {
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -74,18 +72,12 @@ const Dashboard = ({ user, children }) => {
         </Toolbar>
         <Divider />
         <List>
-          <ListItem component={Link} to="/" button>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
+          {links.map((link) => (
+            <ListItem button key={link.label} component={Link} to={link.path}>
+              <ListItemIcon>{link.icon.type.render()}</ListItemIcon>
+              <ListItemText primary={link.label} />
+            </ListItem>
+          ))}
         </List>
       </Drawer>
       <Box
